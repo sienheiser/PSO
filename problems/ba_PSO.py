@@ -8,12 +8,9 @@ Created on Thu Mar 19 10:34:40 2020
 #%%
 
 import numpy as np
-import my_functions as myf
-import optimizer_copy as opt
 from functools import partial
 import random
-import matplotlib.pyplot as plt
-import math_utils_copy as ma
+import math_utils as ma
 import test_state as state
 
 #%% Buidling Particle class
