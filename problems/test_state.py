@@ -6,11 +6,6 @@ Created on Thu Mar 19 12:06:01 2020
 """
 #%%
 import numpy as np
-import my_functions as myf
-import optimizer_copy as opt
-from functools import partial
-import random
-import matplotlib.pyplot as plt
 import math_utils as ma
 
 
