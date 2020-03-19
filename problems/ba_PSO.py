@@ -6,12 +6,12 @@ Created on Thu Mar 19 10:34:40 2020
 """
 
 #%%
-
 import numpy as np
 from functools import partial
-import random
-import math_utils as ma
+
+import modules.math_utils as ma
 import test_state as state
+
 
 #%% Buidling Particle class
 
@@ -30,7 +30,7 @@ class Particle:
             
         for i in self.position_i:
             self.velocity_i.append(ma.Vec(np.random.uniform(-1,1,len(i))))
-        
+#        
         
 
 #%%
