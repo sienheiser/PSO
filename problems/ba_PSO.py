@@ -50,7 +50,7 @@ class Swarm:
     def evaluate(self,costfunc):
         
         for particle in self.swarm:
-            particle.cost_i = ba(particle.position_i)
+            particle.cost_i = costfunc(particle.position_i)
 #            print('cost_i',particle.cost_i)
             if particle.best_cost_i>particle.cost_i or particle.best_cost_i == -1:
                 particle.best_cost_i = particle.cost_i
