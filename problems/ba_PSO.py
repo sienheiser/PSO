@@ -48,7 +48,6 @@ class Swarm:
             self.swarm.append(Particle(noisy_points))
         
     def evaluate(self,costfunc):
-        
         for particle in self.swarm:
             particle.cost_i = costfunc(particle.position_i)
 #            print('cost_i',particle.cost_i)
@@ -65,13 +64,16 @@ class Swarm:
             c1=1        # cognative constant
             c2=2        # social constant
             for particle in self.swarm:
+#                print('particle_position',particle.position_i)
+#                print('particle_velocity',particle.velocity_i)
                 for vel_i in range(len(particle.velocity_i)):
-#                    print('velocity_i',particle.velocity_i[vel_i])
-                    r1 = random.random()
-                    r2 = random.random()
-                    vel_cognitive=c1*r1*(particle.best_pos_i[vel_i]-particle.position_i[vel_i])
-                    vel_social=c2*r2*(self.best_pos_g[vel_i]-particle.position_i[vel_i])
-                    particle.velocity_i[vel_i] = w*particle.velocity_i[vel_i]+vel_cognitive+vel_social
+                    for i in range(len(particle.velocity_i[vel_i])):
+#                        print('velocity_i',particle.velocity_i[vel_i])
+                        r1 = random.random()
+                        r2 = random.random()
+                        vel_cognitive=c1*r1*(particle.best_pos_i[vel_i][i]-particle.position_i[vel_i][i])
+                        vel_social=c2*r2*(self.best_pos_g[vel_i][i]-particle.position_i[vel_i][i])
+                        particle.velocity_i[vel_i][i] = w*particle.velocity_i[vel_i][i]+vel_cognitive+vel_social
 #                    print('this is velocity_i updated',particle.velocity_i[vel_i])
                     
     def update_position(self):
@@ -79,7 +81,7 @@ class Swarm:
             for pos_i in range(len(particle.position_i)):
 #                print('pos_i before update',particle.position_i[pos_i])
                 particle.position_i[pos_i] = particle.position_i[pos_i]+particle.velocity_i[pos_i]
-#                
+                
 #                for i in range(len(particle.position_i[pos_i])):
 #                    if particle.position_i[pos_i][i] < bounds[0]:
 #                        particle.position_i[pos_i][i] = bounds[0]
@@ -134,22 +136,28 @@ class PSO:
 
 #%% initilizing the swarm
 
-#s = Swarm(noisy_points,2)
+#s = Swarm(noisy_points,1)
+#print('position_i',s.swarm[0].position_i)
+#print('velocity_i',s.swarm[0].velocity_i)
+
 
 #%% testing swarm evaluate
 #s.evaluate(ba)
 #
-#print('best_pos_g',s.best_pos_g)
-#print('best_cost_g',s.best_cost_g)
+#print('best_pos_g\n',s.best_pos_g)
+#print('best_cost_g\n',s.best_cost_g)
+#print('best_pos_i \n',s.swarm[0].best_pos_i)
+#print('best_cost_i \n',s.swarm[0].best_cost_i)
 
 #%% testing swarm velocity_update
-#print('velocity_i before update',s.swarm[1].velocity_i[0],s.swarm[0].velocity_i[2])
+#print('velocity_i before update\n',s.swarm[0].velocity_i[0],s.swarm[0].velocity_i[2])
 #s.update_velocity()
-#print('velocity_i before update',s.swarm[1].velocity_i[0],s.swarm[0].velocity_i[2])
+#print('velocity_i after update\n',s.swarm[0].velocity_i[0],s.swarm[0].velocity_i[2])
 
 #%% testing swarm position_update
-#s.update_position([-0.5,0.5])
-
+#print('position_i before update\n',s.swarm[0].position_i[0],s.swarm[0].position_i[2])
+#s.update_position()
+#print('position_i after update\n',s.swarm[0].position_i[0],s.swarm[0].position_i[2])
 #%% testing PSO class
 
 #po = PSO(noisy_points,ba,500,20)
