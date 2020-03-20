@@ -114,10 +114,10 @@ class PSO:
 
             
 #%% initializing the problem
-observations = state.observations
+#observations = state.observations
 #print(observations)
-cameras = state.cameras
-noisy_points = state.noisy_points
+#cameras = state.cameras
+#noisy_points = state.noisy_points
 
 
 #%% testing particles
@@ -130,7 +130,7 @@ noisy_points = state.noisy_points
 
 #%% defining the cost function
 
-ba = partial(state.bundle_adjust,observations,cameras)
+#ba = partial(state.bundle_adjust,observations,cameras)
 
 #%% initilizing the swarm
 
@@ -152,7 +152,7 @@ ba = partial(state.bundle_adjust,observations,cameras)
 
 #%% testing PSO class
 
-po = PSO(noisy_points,ba,500,20)
+#po = PSO(noisy_points,ba,500,20)
 
 
 #%%
