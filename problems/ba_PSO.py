@@ -8,6 +8,7 @@ Created on Thu Mar 19 10:34:40 2020
 #%%
 import numpy as np
 from functools import partial
+import random
 
 import math_utils as ma
 import test_state as state
