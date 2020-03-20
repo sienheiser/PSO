@@ -8,14 +8,10 @@ Created on Tue Mar  3 11:35:56 2020
 
 from __future__ import division
 import random
-import math
+
 from functools import partial
 import matplotlib.pyplot as plt
 import numpy as np
-
-import optimizer_copy as opt
-import my_functions as myf
-import math_utils_copy as mu
 
 
 
@@ -136,12 +132,13 @@ pts = np.random.rand(10,2)
 X = [x for x,y in pts]
 Y = [y for x,y in pts]
 
-help(myf.ver_dist)
+def residuals(x,y,a,b):
+    return y-a*x-b
 
 def costfunc(pts,a,b):#defining the cost function
     cost = 0
     for x,y in pts:
-        cost += myf.ver_dist(x,y,a,b)*myf.ver_dist(x,y,a,b)
+        cost += residuals(x,y,a,b)*residuals(x,y,a,b)
     return cost
 
 position = np.array([2,2])#[a,b]
@@ -169,20 +166,20 @@ po = PSO(partial(costfunc,pts),np.array([1,1]),[-5,5],10,100)
 
 m,b = np.polyfit(X,Y,1)#using numpy linear fitting to compare to PSO
 
-print(m,b)
+print('m,b',m,b)
 
 
 #%%
-
+def line(x,a,b):
+    return x*a+b
 
 x = np.linspace(0,1)
 plt.plot(X,Y,'o')
-plt.plot(x,myf.line(x,m,b),label = 'in-built pyhton method')
-plt.plot(x,myf.line(x,po.pos_best_g[0],po.pos_best_g[1]),label = 'PSO')
+plt.plot(x,line(x,m,b),label = 'in-built pyhton method')
+plt.plot(x,line(x,po.pos_best_g[0],po.pos_best_g[1]),label = 'PSO')
 plt.legend()
 plt.xlabel('[arbitrary units]')
 plt.ylabel('[arbitrary units]')
-
 
 
 
