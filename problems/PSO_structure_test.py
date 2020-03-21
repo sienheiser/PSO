@@ -68,13 +68,14 @@ class Swarm:
         c2=2        # social constant
         for particle in self.swarm:
             for i in range(len(particle.position_i)):
-                r1 = random.random()#random numbers
-                r2 = random.random()#random number
-        
-                vel_cognitive=c1*r1*(particle.best_position_i[i]-particle.position_i[i])#defining the cognitive velocity
-                vel_social=c2*r2*(self.best_pos_g[i]-particle.position_i[i])#defining the social velocity
-                particle.velocity_i[i]=w*particle.velocity_i[i]+vel_cognitive+vel_social#updating the velocity component-wise
-        
+                for j in range(len(particle.position_i[i])):
+                    r1 = random.random()#random numbers
+                    r2 = random.random()#random number
+                    vel_cognitive=c1*r1*(particle.best_position_i[i][j]-particle.position_i[i][j])#defining the cognitive velocity
+                    vel_social=c2*r2*(self.best_pos_g[i][j]-particle.position_i[i][j])#defining the social velocity
+                    particle.velocity_i[i][j]=w*particle.velocity_i[i][j]+vel_cognitive+vel_social#updating the velocity component-wise
+#            print('particle velocity after update',particle.velocity_i)
+    
     def update_position(self):
         for particle in self.swarm:
             particle.position_i=particle.position_i+particle.velocity_i
