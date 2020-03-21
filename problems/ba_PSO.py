@@ -24,7 +24,7 @@ noisy_points = state.noisy_points
 ba = partial(state.bundle_adjust,observations,cameras)
 #%% testing PSO class
 
-#po = PSO(noisy_points,ba,500,20)
+po = pt.PSO(noisy_points,ba,50,500)
 
 
 #%%
