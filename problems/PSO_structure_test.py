@@ -84,8 +84,9 @@ class Swarm:
         
         for particle in self.swarm:
 #            print('particle position before update',particle.position_i)
-            for i in range(len(particle.position_i)):
-                particle.position_i[i]=particle.position_i[i]+particle.velocity_i[i]
+#            for i in range(len(particle.position_i)):
+#                particle.position_i[i]=particle.position_i[i]+particle.velocity_i[i]
+            particle.position_i = particle.position_i+particle.velocity_i
         
 #            print('particle position after update',particle.position_i)
             
