@@ -5,13 +5,13 @@ Created on Fri Mar 20 11:15:29 2020
 @author: coolb
 """
 #%%
-import ba_PSO as ba
+import PSO_structure_test as pt
 #%%
 
 
 
 #%% points of ends of springs
-pts =  [ba.ma.Vec(v) for v in [-2, -1, 0, 0.5, 1.5, 2.5]]
+pts =  [pt.ma.Vec(v) for v in [-2, -1, 0, 0.5, 1.5, 2.5]]
 
 klist = [1,-1,1,-1,1]
 
@@ -37,10 +37,10 @@ costfun(klist,pts)
     
 #%% initilizing cost function for springs
 
-costfunction = ba.partial(costfun,klist)
+costfunction = pt.partial(costfun,klist)
 
 #%% running PSO algorithm
-po = ba.PSO(pts,costfunction,50,100)
+po = pt.PSO(pts,costfunction,50,100)
 
 
 
