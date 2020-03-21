@@ -10,6 +10,7 @@ import numpy as np
 import random 
 from functools import partial
 import matplotlib.pyplot as plt
+import math_utils as ma
 #%%
 
 
@@ -47,13 +48,15 @@ class Swarm:
         self.swarm = []
         
         for i in range(num_particles):
+            self.swarm.append(Particle(x))
     
     def evaluate(self,func):
         for particle in self.swarm:
             particle.err_i = func(particle.position_i)#evaluating the cost at particle position and recording individual cost
+#            print('evaluated cost is',particle.err_i)
             if particle.err_i<particle.err_best_i or particle.err_best_i == -1:#arguement for recording best indiviual cost
-#            print('in if loop')
-#            print('position_i',self.position_i)
+#                print('in if loop')
+#               print('position_i',self.position_i)
                 particle.best_position_i = particle.position_i#setting the best individual cost
                 particle.err_best_i = particle.err_i#setting the best individual position
             
@@ -67,6 +70,7 @@ class Swarm:
         c1=1        # cognative constant
         c2=2        # social constant
         for particle in self.swarm:
+#            print('particle velocity before update',particle.velocity_i)
             for i in range(len(particle.position_i)):
                 for j in range(len(particle.position_i[i])):
                     r1 = random.random()#random numbers
@@ -77,7 +81,13 @@ class Swarm:
 #            print('particle velocity after update',particle.velocity_i)
     
     def update_position(self):
+        
         for particle in self.swarm:
+#            print('particle position before update',particle.position_i)
+            for i in range(len(particle.position_i)):
+                particle.position_i[i]=particle.position_i[i]+particle.velocity_i[i]
+        
+#            print('particle position after update',particle.position_i)
             
 #%%
 class PSO:
@@ -106,29 +116,52 @@ X = [x for x,y in pts]
 Y = [y for x,y in pts]
 
 def residuals(x,y,a,b):
-    return y-a*x-b
+    return y-a[0]*x-b[0]
 
-def costfunc(pts,a,b):#defining the cost function
+def costfunc(pts,pos):#defining the cost function
     cost = 0
     for x,y in pts:
-        cost += residuals(x,y,a,b)*residuals(x,y,a,b)
+        cost += residuals(x,y,pos[0],pos[1])*residuals(x,y,pos[0],pos[1])
     return cost
+#%%
 
-position = np.array([2,2])#[a,b]
+
+position = [ma.Vec(2),ma.Vec(2)]#[a,b]
+costfunc(pts,position)
+
+
 f = partial(costfunc,pts)
 
-#%%
+#%% Testing particle properties in swarm
 #sw = Swarm(position,1)
+#print('particle position',sw.swarm[0].position_i)
+#print('particle velocity',sw.swarm[0].velocity_i)
+
+#%% Testing evaluate method in swarm
 #sw.evaluate(f)
+#print('particle cost',sw.swarm[0].err_i)
+#print('particle best cost',sw.swarm[0].err_best_i)
+#print('particle best position',sw.swarm[0].best_position_i)
+#
+#print('swarm best cost',sw.best_cost_g)
+#print('swarm best positoin',sw.best_pos_g)
+
+#%% Testing update_velocity method in swarm
 #sw.update_velocity()
+
+#%% Testing update_position method in swarm
+
 #sw.update_position()
+
+
+
 
 #%%
 
 po = PSO(position,f,20,25)
 
 m,b = np.polyfit(X,Y,1)
-
+#
 def line(x,a,b):
     return x*a+b
 x = np.linspace(0,1)
