@@ -50,7 +50,6 @@ class Swarm:
         self.swarm = []
         
         for i in range(num_particles):
-            self.swarm.append(Particle(np.random.uniform(-5,5,len(x))))
     
     def evaluate(self,func):
         for particle in self.swarm:
