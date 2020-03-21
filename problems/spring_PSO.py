@@ -5,7 +5,7 @@ Created on Fri Mar 20 11:15:29 2020
 @author: coolb
 """
 #%%
-import PSO_structure_test as pt
+import PSO_algorithm as pt
 #%%
 
 
