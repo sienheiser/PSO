@@ -78,7 +78,6 @@ class Swarm:
     
     def update_position(self):
         for particle in self.swarm:
-            particle.position_i=particle.position_i+particle.velocity_i
             
 #%%
 class PSO:
