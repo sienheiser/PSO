@@ -29,9 +29,6 @@ class Particle:
         self.err_i=-1            # individual cost
         self.length_i = len(x)
         
-        self.velocity_i = np.ndarray(len(x),dtype=np.float64)
-        for i in range(self.length_i):
-            self.velocity_i[i] = random.uniform(-1,1)#initilaizing correct length of velocity
         for i in x:
             self.position_i.append(np.random.uniform(-5,5,len(i)))
         
