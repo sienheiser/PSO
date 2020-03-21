@@ -129,7 +129,11 @@ class PSO:
 #%%
 
 
-f = partial(costfunc,pts)
+#position = [ma.Vec(2),ma.Vec(2)]#[a,b]
+#print(costfunc(pts,position))
+#
+#
+#f = partial(costfunc,pts)
 
 #%% Testing particle properties in swarm
 #sw = Swarm(position,1)
@@ -141,7 +145,7 @@ f = partial(costfunc,pts)
 #print('particle cost',sw.swarm[0].err_i)
 #print('particle best cost',sw.swarm[0].err_best_i)
 #print('particle best position',sw.swarm[0].best_position_i)
-#
+##
 #print('swarm best cost',sw.best_cost_g)
 #print('swarm best positoin',sw.best_pos_g)
 
@@ -157,14 +161,19 @@ f = partial(costfunc,pts)
 
 #%%
 
-po = PSO(position,f,20,25)
-
-m,b = np.polyfit(X,Y,1)
+#po = PSO(position,f,20,25)
 #
-def line(x,a,b):
-    return x*a+b
-x = np.linspace(0,1)
+#m,b = np.polyfit(X,Y,1)
+##
+#def line(x,a,b):
+#    return x*a+b
+#x = np.linspace(0,1)
+#
+#plt.plot(x,line(x,m,b),label = 'inbuilt method')
+#plt.plot(x,line(x,po.best_position[0],po.best_position[1]),label='PSO')
+#plt.plot(X,Y,'o')
 
-plt.plot(x,line(x,m,b),label = 'inbuilt method')
-plt.plot(x,line(x,po.best_position[0],po.best_position[1]),label='PSO')
-plt.plot(X,Y,'o')
+#%%
+
+
+
