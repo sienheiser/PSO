@@ -34,9 +34,10 @@ class Particle:
             self.position_i.append(ma.Vec(*np.random.uniform(-5,5,len(i))))
         self.position_i = ma.Vec(self.position_i)
         
-        for i in x:
-            self.velocity_i.append(np.random.uniform(-1,1,len(i)))
-            
+        for i in self.position_i:
+            self.velocity_i.append(ma.Vec(*np.random.uniform(-1,1,len(i))))
+        
+        self.velocity_i = ma.Vec(*self.velocity_i)
         
 #%%
             
