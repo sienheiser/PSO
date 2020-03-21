@@ -50,7 +50,7 @@ class Swarm:
     
     def evaluate(self,func):
         for particle in self.swarm:
-            particle.err_i = func(*particle.position_i)#evaluating the cost at particle position and recording individual cost
+            particle.err_i = func(particle.position_i)#evaluating the cost at particle position and recording individual cost
             if particle.err_i<particle.err_best_i or particle.err_best_i == -1:#arguement for recording best indiviual cost
 #            print('in if loop')
 #            print('position_i',self.position_i)
