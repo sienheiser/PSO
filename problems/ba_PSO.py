@@ -8,7 +8,7 @@ Created on Thu Mar 19 10:34:40 2020
 #%%
 from functools import partial
 
-import PSO_structure_test as pt
+import PSO_algorithm as pt
 
 import test_state as state
 
