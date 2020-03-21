@@ -54,6 +54,8 @@ def bundle_adjust(observations,cameras,noisy_points):
         cost += residual(feat,noisy_points[i],cameras[j][0],cameras[j][1])**2
     return cost
 
+#%%
+
         
 
 
