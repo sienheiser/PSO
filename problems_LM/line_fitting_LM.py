@@ -35,6 +35,10 @@ def vert_dist(x,y,a,b):
     return y-a[0]*x-b[0]
 
 pts = opt.np.random.rand(10,2)
+X = [x for x,y in pts]
+Y = [y for x,y in pts]
+m,b = opt.np.polyfit(X,Y,1)
+
 li = [opt.Vec(1),opt.Vec(1)]
 u = opt.Optimizer()
 for x,y in pts:
@@ -42,5 +46,7 @@ for x,y in pts:
 
 u.optimize()
 
+print('LM gradient,slope',li)
+print('m,b',m,b)
     
 
