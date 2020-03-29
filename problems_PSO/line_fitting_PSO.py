@@ -4,9 +4,10 @@ Created on Fri Mar 20 12:10:41 2020
 
 @author: coolb
 """
-#%%
+
 import PSO_algorithm as pt
 import matplotlib.pyplot as plt
+
 
 
 #%% initilizing problem
@@ -24,7 +25,7 @@ def costfunc(pts,pos):#defining the cost function
         cost += residuals(x,y,pos[0],pos[1])*residuals(x,y,pos[0],pos[1])
     return cost
 
-#%%
+
 
 
 position = [pt.ma.Vec(2),pt.ma.Vec(2)]#[a,b]
@@ -32,7 +33,7 @@ print(costfunc(pts,position))
 
 
 f = pt.partial(costfunc,pts)
-#%%
+
 
 po = pt.PSO(position,f,21,27)
 
@@ -49,3 +50,4 @@ plt.plot(x,line(x,m,b),label = 'inbuilt method')
 plt.plot(x,line(x,po.best_position[0],po.best_position[1]),label='PSO')
 plt.plot(X,Y,'o')
 plt.legend()
+plt.show()
