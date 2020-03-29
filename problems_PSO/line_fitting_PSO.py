@@ -29,13 +29,13 @@ def costfunc(pts,pos):#defining the cost function
 
 
 position = [pt.ma.Vec(2),pt.ma.Vec(2)]#[a,b]
-print(costfunc(pts,position))
+#print(costfunc(pts,position))
 
 
 f = pt.partial(costfunc,pts)
 
 
-po = pt.PSO(position,f,21,27)
+po = pt.PSO(position,f,20,40)
 
 m,b = pt.np.polyfit(X,Y,1)
 #
@@ -44,8 +44,8 @@ def line(x,a,b):
 x = pt.np.linspace(0,1)
 
 print('m,b',m,b)
-print('gradient, slope',po.best_position)
-
+print('PSO gradient, slope',po.best_position)
+#%%
 plt.plot(x,line(x,m,b),label = 'inbuilt method')
 plt.plot(x,line(x,po.best_position[0],po.best_position[1]),label='PSO')
 plt.plot(X,Y,'o')
