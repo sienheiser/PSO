@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 
 #%% initilizing problem
+pt.np.random.seed(42)
 pts = pt.np.random.rand(10,2)
 X = [x for x,y in pts]
 Y = [y for x,y in pts]
@@ -33,7 +34,7 @@ print(costfunc(pts,position))
 f = pt.partial(costfunc,pts)
 #%%
 
-po = pt.PSO(position,f,20,25)
+po = pt.PSO(position,f,20,27)
 
 m,b = pt.np.polyfit(X,Y,1)
 #
