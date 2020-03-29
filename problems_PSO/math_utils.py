@@ -400,7 +400,7 @@ if __name__ == "__main__":
         return xy.dot(zw) + sqrt(q)
 
     retv = Jet.compute_first_order(my_func, [0.1, 0.2], [4, 5], 7)
-    print(retv)
+#    print(retv)
     
     
 #%%
