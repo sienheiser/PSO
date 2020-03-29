@@ -29,7 +29,7 @@ def costfunc(pts,pos):#defining the cost function
 
 position = [pt.ma.Vec(2),pt.ma.Vec(2)]#[a,b]
 print(costfunc(pts,position))
-
+#check
 
 f = pt.partial(costfunc,pts)
 #%%
