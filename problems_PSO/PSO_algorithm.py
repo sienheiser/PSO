@@ -68,9 +68,9 @@ class Swarm:
                 self.best_pos_g = particle.best_position_i
     
     def update_velocity(self):
-        w=0.5       # constant inertia weight (how much to weigh the previous velocity)
-        c1=1        # cognative constant
-        c2=2        # social constant
+        w=0.5      # constant inertia weight (how much to weigh the previous velocity)
+        c1=1       # cognative constant
+        c2=2       # social constant
         for particle in self.swarm:
 #            print('particle velocity before update',particle.velocity_i)
             for i in range(len(particle.position_i)):
