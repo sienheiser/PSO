@@ -108,8 +108,8 @@ class PSO:
         
         self.best_cost = sw.best_cost_g
         self.best_position = sw.best_pos_g
-        print('The best cost is',self.best_cost)
-        print('The best position is',self.best_position)
+#        print('The best cost is',self.best_cost)
+#        print('The best position is',self.best_position)
         
     
 #%%
