@@ -46,6 +46,9 @@ class Swarm:
         self.best_pos_g = None
         self.best_cost_g = -1
         
+        self.best_cost_g = -1# best group cost
+        self.cost_camp = -1#used for getting the difference between best group cost and previous best cost
+        self.tol = None
         
         self.swarm = []
         
@@ -67,6 +70,10 @@ class Swarm:
                 self.best_cost_g = particle.err_best_i
                 self.best_pos_g = particle.best_position_i
     
+    def difference(self):
+        diff = abs(self.best_cost_g-self.cost_camp)
+        self.tol = diff
+        self.cost_camp = self.best_cost_g
     def update_velocity(self):
         w=0.5       # constant inertia weight (how much to weigh the previous velocity)
         c1=1        # cognative constant
