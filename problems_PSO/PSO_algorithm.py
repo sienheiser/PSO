@@ -102,6 +102,7 @@ class Swarm:
 #%%
 class PSO:
     def __init__(self,noisy_points,costfunc,num_particles:int,num_iterations:int):
+    def __init__(self,noisy_points,costfunc,num_particles:int):
         self.best_cost = None
         self.best_position = None
         
