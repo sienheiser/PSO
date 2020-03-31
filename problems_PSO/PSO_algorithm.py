@@ -110,6 +110,7 @@ class PSO:
         self.iteration = 0
         while sw.tol > 0.01:
             sw.evaluate(costfunc)
+            sw.difference()
             sw.update_velocity()
             sw.update_position()
             i += 1
