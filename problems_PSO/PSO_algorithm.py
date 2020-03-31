@@ -108,6 +108,7 @@ class PSO:
         
         sw = Swarm(noisy_points,num_particles)
         self.iteration = 0
+        while sw.tol > 0.01:
             sw.evaluate(costfunc)
             sw.update_velocity()
             sw.update_position()
