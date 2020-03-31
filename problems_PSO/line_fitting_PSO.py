@@ -29,14 +29,17 @@ def costfunc(pts,pos):#defining the cost function
 
 
 position = [pt.ma.Vec(2),pt.ma.Vec(2)]#[a,b]
-print(costfunc(pts,position))
+#print(costfunc(pts,position))
 
 
 f = pt.partial(costfunc,pts)
 
 
-po = pt.PSO(position,f,21,27)
-
+po = pt.PSO(position,f,21,0.001)
+print('The number of iterations is',po.iteration)
+#print('The best cost is',po.best_cost)
+#print('The best position is',po.best_position)
+#%%
 m,b = pt.np.polyfit(X,Y,1)
 #
 def line(x,a,b):

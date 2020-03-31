@@ -46,7 +46,7 @@ class Swarm:
         self.best_pos_g = None
         self.best_cost_g = -1# best group cost
         self.cost_camp = -1#used for getting the difference between best group cost and previous best cost
-        self.tol = None
+        self.tol = 1
         
         self.swarm = []
         
@@ -69,9 +69,13 @@ class Swarm:
                 self.best_pos_g = particle.best_position_i
     
     def difference(self):
-        diff = abs(self.best_cost_g-self.cost_camp)
-        self.tol = diff
+        print('cost_camp befor update',self.cost_camp)
+        print('best_cost_g',self.best_cost_g)
+        self.tol = abs(self.best_cost_g-self.cost_camp)
         self.cost_camp = self.best_cost_g
+        print('The tolerance', self.tol)
+        print('cost_camp after update',self.cost_camp)
+        print('--------------------------------------')
         
         
     
@@ -102,15 +106,18 @@ class Swarm:
             
 #%%
 class PSO:
-    def __init__(self,noisy_points,costfunc,num_particles:int):
+    def __init__(self,noisy_points,costfunc,num_particles:int,tol):
         self.best_cost = None
         self.best_position = None
         
         sw = Swarm(noisy_points,num_particles)
         self.iteration = 0
-        while sw.tol > 0.01:
+        while sw.tol > tol:
+#            print('The tolerance before update',sw.tol)
             sw.evaluate(costfunc)
             sw.difference()
+#            print('The tolerance after update',sw.tol)
+            
             sw.update_velocity()
             sw.update_position()
             self.iteration += 1
@@ -123,56 +130,56 @@ class PSO:
     
 #%%
 
-pts = np.random.rand(10,2)
-X = [x for x,y in pts]
-Y = [y for x,y in pts]
-
-def residuals(x,y,a,b):
-    return y-a[0]*x-b[0]
-
-def costfunc(pts,pos):#defining the cost function
-    cost = 0
-    for x,y in pts:
-        cost += residuals(x,y,pos[0],pos[1])*residuals(x,y,pos[0],pos[1])
-    return cost
+#pts = np.random.rand(10,2)
+#X = [x for x,y in pts]
+#Y = [y for x,y in pts]
+#
+#def residuals(x,y,a,b):
+#    return y-a[0]*x-b[0]
+#
+#def costfunc(pts,pos):#defining the cost function
+#    cost = 0
+#    for x,y in pts:
+#        cost += residuals(x,y,pos[0],pos[1])*residuals(x,y,pos[0],pos[1])
+#    return cost
 #%%
 
-
-position = [ma.Vec(2),ma.Vec(2)]#[a,b]
-print(costfunc(pts,position))
-
-
-f = partial(costfunc,pts)
+#
+#position = [ma.Vec(2),ma.Vec(2)]#[a,b]
+#print(costfunc(pts,position))
+#
+#
+#f = partial(costfunc,pts)
 
 #%% Testing particle properties in swarm
-sw = Swarm(position,1)
-print('particle position',sw.swarm[0].position_i)
-print('particle velocity',sw.swarm[0].velocity_i)
+#sw = Swarm(position,1)
+#print('particle position',sw.swarm[0].position_i)
+#print('particle velocity',sw.swarm[0].velocity_i)
 
 #%% Testing evaluate method in swarm
-sw.evaluate(f)
-print('particle cost',sw.swarm[0].err_i)
-print('particle best cost',sw.swarm[0].err_best_i)
-print('particle best position',sw.swarm[0].best_position_i)
-#
-print('swarm best cost',sw.best_cost_g)
-print('swarm best positoin',sw.best_pos_g)
+#sw.evaluate(f)
+#print('particle cost',sw.swarm[0].err_i)
+#print('particle best cost',sw.swarm[0].err_best_i)
+#print('particle best position',sw.swarm[0].best_position_i)
+##
+#print('swarm best cost',sw.best_cost_g)
+#print('swarm best positoin',sw.best_pos_g)
 
 #%% Testing swarm difference method
-print('cost comparer', sw.cost_camp)
-print('tolerance',sw.tol)
-print(sw.difference())
-print('tolerance',sw.tol)
-print('cost comparer', sw.cost_camp)
+#print('cost comparer', sw.cost_camp)
+#print('tolerance',sw.tol)
+#print(sw.difference())
+#print('tolerance',sw.tol)
+#print('cost comparer', sw.cost_camp)
 
 
 
 #%% Testing update_velocity method in swarm
-sw.update_velocity()
+#sw.update_velocity()
 
 #%% Testing update_position method in swarm
 
-sw.update_position()
+#sw.update_position()
 
 
 
