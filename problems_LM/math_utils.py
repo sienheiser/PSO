@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb  3 14:45:51 2020
+Created on Mon Mar  2 11:05:19 2020
 
 @author: coolb
 """
-#%%
+
 import numpy as np
 import math
 from functools import partial
-#%%
+
 
 # simple vector class
 class Vec:
@@ -28,7 +28,6 @@ class Vec:
         return self
 
     def __radd__(self, other):
-        print('I am in __radd__')
         assert(len(self.values) == len(other))
         return Vec(*[v+other[i] for i,v in enumerate(self.values)])
 
@@ -75,6 +74,9 @@ class Vec:
     
     def __getitem__(self, key):
         return self.values[key]
+    
+    def __setitem__(self, key, value):
+        self.values[key] = value
 
     def __iter__(self):
         return self.values.__iter__()
@@ -310,28 +312,32 @@ class Jet:
 
     @staticmethod
     def compute_first_order(function, *argv):
+        '''
+        function: function whose derivatives need to be computed
+        argv: arguments of function
+        returns output of function at a point and also the partial derivatives
+        of all the arguments at that point.
+        Has the form
+        result:[pders]
+        '''
         first_order_args, indices, lengths = [], [], []
         start_index = 0
         for arg in argv:
             indices.append(start_index)
-#            print('This is indices',indices)
             if isinstance(arg, (Quat, Vec, np.ndarray, list, tuple)):
-#                print('-------------------In if loop------------------')
                 first_order_args.append(Jet.block(arg, start_index))
-#                print('This is first_order_args',first_order_args)
                 start_index += len(arg)
-#                print('This is start_index',start_index)
                 lengths.append(len(arg))
-#                print('This is lengths',lengths)
             else:
-#                print('---------------In else loop--------------------')
                 first_order_args.append(Jet.var(arg, start_index))
-#                print('This is first_order_args',first_order_args)
                 start_index += 1
-#                print('This is start_index',start_index)
                 lengths.append(1)
-#                print('This is lengths',lengths)
         result = function(*first_order_args)
+#        print('This is result',result)
+        if isinstance(result,(Quat, Vec, np.ndarray, list, tuple)):#adding because sometimes result =[result]
+            result = result[0]
+        else:
+            result = result
 #        print('This is result',result)
         pders = result.pders
         if len(pders) < start_index:
@@ -345,7 +351,15 @@ class Jet:
             arg0 = Jet.block(argv[0], 0)
         else:
             arg0 = Jet.var(argv[0], 0)
+        
+        
         result = function(arg0, *argv[1:])
+#        print('This is result',result)
+        if isinstance(result, (Quat, Vec, np.ndarray, list, tuple)):
+            result = result[0]
+        else:
+            result = result
+#        print('This is result',result)
         return (result.value, result.pders)
 
 def sqrt(x):
@@ -371,50 +385,36 @@ def parametrize(x, dx):
 
 def apply_parametrized_step(x, dx):
     if hasattr(x, '__apply_parametrized_step__'):
+        print('I am in if loop')
         x.__apply_parametrized_step__(dx)
     else:
+        print('I am in else loop')
+        print(x)
+        print(dx)
         x += dx
 
 
 # simple test
-#if __name__ == "__main__":
-#    def my_func(xy, zw, q):
-#        return xy.dot(zw) + sqrt(q)
-#
-#    retv = Jet.compute_first_order(my_func, [0.1, 0.2], [4, 5], 7)
-#    print(retv)
-#
-#%%
+if __name__ == "__main__":
+    def my_func(xy, zw, q):
+        return xy.dot(zw) + sqrt(q)
 
-def residual(k, v1, v2):
-    return v2[0] - v1[0] - k
-pts = [Vec(x) for x in [-2, -1, 0, 0.5, 1.5, 2.5]]
-f = partial(residual,1) #setting value of k to 1
-(Jet.compute_first_order(f,pts[0],pts[1]))#checking the first order derivative
+    retv = Jet.compute_first_order(my_func, [0.1, 0.2], [4, 5], 7)
+    print(retv)
+    
+    
+#%%
+    
+
 
 
 
 
 #%%
 
-def vert_dist(x,y,a,b):
-    '''
-    pt: point (x,y)
-    a: slope of line
-    b: y-intercept
-    '''
-    return y-a[0]*x-b[0]
 
-#x = Vec(1)
-#y = Vec(1)
-x,y = (2,2)#defining point (x,y)
-li = [Vec(2),Vec(2)]#setting values for [a,b]
-f = partial(vert_dist,x,y)#setting pt
-
-Jet.compute_first_order(f,li[0],li[1])
+#%%
 
 
-
-
-
+#%%
 
