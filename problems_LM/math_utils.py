@@ -385,12 +385,12 @@ def parametrize(x, dx):
 
 def apply_parametrized_step(x, dx):
     if hasattr(x, '__apply_parametrized_step__'):
-        print('I am in if loop')
+#        print('I am in if loop')
         x.__apply_parametrized_step__(dx)
     else:
-        print('I am in else loop')
-        print(x)
-        print(dx)
+#        print('I am in else loop')
+#        print(x)
+#        print(dx)
         x += dx
 
 
@@ -400,7 +400,7 @@ if __name__ == "__main__":
         return xy.dot(zw) + sqrt(q)
 
     retv = Jet.compute_first_order(my_func, [0.1, 0.2], [4, 5], 7)
-    print(retv)
+#    print(retv)
     
     
 #%%
