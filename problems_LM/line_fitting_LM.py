@@ -5,6 +5,7 @@ Created on Wed Feb 26 16:32:05 2020
 @author: coolb
 """
 import optimizer as opt
+import time
 #%%
     
 opt.np.random.seed(42)
@@ -24,7 +25,7 @@ opt.np.random.seed(42)
 #o.optimize()
 
 
-#%%
+
     
 def vert_dist(x,y,a,b):
     '''
@@ -34,13 +35,32 @@ def vert_dist(x,y,a,b):
     '''
     return y-a[0]*x-b[0]
 
-pts = opt.np.random.rand(10,2)
-li = [opt.Vec(1),opt.Vec(1)]
-u = opt.Optimizer()
-for x,y in pts:
-    u.add_residual(opt.partial(vert_dist,x,y),li[0],li[1])
 
-u.optimize()
+
+iterations = 1000
+i = 0
+avg_time = 0
+avg_iter = 0
+
+while i < iterations:
+
+    pts = opt.np.random.rand(10,2)
+    li = [opt.Vec(1),opt.Vec(1)]
+    u = opt.Optimizer()
+    
+    for x,y in pts:
+        u.add_residual(opt.partial(vert_dist,x,y),li[0],li[1])
+        
+    t0 = time.time()
+    u.optimize()
+    t1 = time.time()
+    avg_iter += u.iterations/iterations
+    avg_time += (t1-t0)/iterations
+    i += 1
+
+
+print('average iterations',avg_iter)
+print('average_time',avg_time)
 
     
 
