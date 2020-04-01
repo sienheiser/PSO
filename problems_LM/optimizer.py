@@ -190,9 +190,9 @@ class Optimizer:
 #            print('--------------Passing the fifth step----------------------')
 #            print('The model_cost_change and prev_cost are',model_cost_change,prev_cost)
             # print status, 1/2
-#            print('{0} cost={1} mΔ={2} λ={3} |∇ₛ|∞={4} |∇ₑ|∞={5}'.format(mood.value, cost,
-#                                           model_cost_change, dampingL,
-#                                           np.max(self.surv_grad), np.max(self.elim_grad)), end='')
+            print('{0} cost={1} mΔ={2} λ={3} |∇ₛ|∞={4} |∇ₑ|∞={5}'.format(mood.value, cost,
+                                           model_cost_change, dampingL,
+                                           np.max(self.surv_grad), np.max(self.elim_grad)), end='')
             if (max(np.max(self.surv_grad), np.max(self.elim_grad)) < 1e-12
                 or (prev_cost is not None and prev_cost - 1e-6 < cost < prev_cost)):
 #                print('\n{0} unable to improve cost further, stopping'.format(Moods.Shrug.value))
