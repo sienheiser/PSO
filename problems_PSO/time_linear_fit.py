@@ -32,7 +32,7 @@ position = [pt.ma.Vec(2),pt.ma.Vec(2)]#[a,b]
 
 
 f = pt.partial(costfunc,pts)
-po = pt.PSO(position,f,21,27)
+po = pt.PSO(position,f,21,0.000001)
 '''
 print('This time is',tt.timeit(setup = mysetup,stmt = mycode, number = 100)/100)
 
