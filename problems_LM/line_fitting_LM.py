@@ -37,7 +37,7 @@ def vert_dist(x,y,a,b):
 
 
 
-iterations = 50
+iterations = 10000
 i = 0
 avg_time = 0
 avg_iter = 0
@@ -45,6 +45,7 @@ avg_iter = 0
 lis_time = []
 lis_iter = []
 
+time1 = time.time()
 while i < iterations:
 
     pts = opt.np.random.rand(10,2)
@@ -55,7 +56,9 @@ while i < iterations:
         u.add_residual(opt.partial(vert_dist,x,y),li[0],li[1])
         
     t0 = time.time()
+    
     u.optimize()
+    
     t1 = time.time()
     
     avg_iter += u.iterations/iterations
@@ -65,7 +68,8 @@ while i < iterations:
     lis_iter.append(u.iterations)
     
     i += 1
-
+time2 = time.time()
+print('The time for the while iterations to finish',time2-time1)
 
 print('average iterations',avg_iter)
 print('average_time',avg_time)
