@@ -75,19 +75,21 @@ class Optimizer:
 
     # run optimization
     def optimize(self):
-        print('-------------------Starting optimize---------------------------------')
+#        print('-------------------Starting optimize---------------------------------')
         for event in self.optimize_it():
             pass
 
     # run optimization, with control inversion on events
     def optimize_it(self):
-        print('Baby-Apophis is up and toddling its baby optimization-steps!\n\n' + ASCII_BABY)
+#        print('Baby-Apophis is up and toddling its baby optimization-steps!\n\n' + ASCII_BABY)
 
         # create gradient, step vectors (state stays in given block refs)
         self.elim_grad = np.ndarray(self.elim_plen, dtype=np.float64)
         self.surv_grad = np.ndarray(self.surv_plen, dtype=np.float64)
         self.elim_step = np.ndarray(self.elim_plen, dtype=np.float64)
         self.surv_step = np.ndarray(self.surv_plen, dtype=np.float64)
+        
+        self.iterations = 0
         
 #        print('The value of elim_plen is {0} and surv_plen is {1}'.format(self.elim_plen,self.surv_plen))
 #        print('This elim_grad',self.elim_grad)
@@ -136,7 +138,7 @@ class Optimizer:
 
             # evaluate all residuals, add contributions to cost, gradient, hessian
             cost = 0
-            print('-------------------Passing the third step-------------------')
+#            print('-------------------Passing the third step-------------------')
             for f, args, pranges in self.residuals:
 #                print('this is f',f)
                 res, pders = Jet.compute_first_order(f, *args)
@@ -171,7 +173,7 @@ class Optimizer:
             yield 'updated_gradient' # invert control, gradient was computed
                             
             # tweak damping parameter (lambda)
-            print('The model_cost_change and prev_cost are',model_cost_change,prev_cost)
+#            print('The model_cost_change and prev_cost are',model_cost_change,prev_cost)
             if model_cost_change is not None:
                 model_cost_change += 0.5 * (self.elim_grad.dot(self.elim_step) + self.surv_grad.dot(self.surv_step))
                 #print('cost={0}, prev_cost={1}, model_delta={2}'.format(cost, prev_cost, model_cost_change))
@@ -185,12 +187,12 @@ class Optimizer:
                     mood = Moods.Crying
             else:
                 mood = Moods.Facepalm
-            print('--------------Passing the fifth step----------------------')
+#            print('--------------Passing the fifth step----------------------')
 #            print('The model_cost_change and prev_cost are',model_cost_change,prev_cost)
             # print status, 1/2
-            print('{0} cost={1} mΔ={2} λ={3} |∇ₛ|∞={4} |∇ₑ|∞={5}'.format(mood.value, cost,
-                                           model_cost_change, dampingL,
-                                           np.max(self.surv_grad), np.max(self.elim_grad)), end='')
+#            print('{0} cost={1} mΔ={2} λ={3} |∇ₛ|∞={4} |∇ₑ|∞={5}'.format(mood.value, cost,
+#                                           model_cost_change, dampingL,
+#                                           np.max(self.surv_grad), np.max(self.elim_grad)), end='')
             if (max(np.max(self.surv_grad), np.max(self.elim_grad)) < 1e-12
                 or (prev_cost is not None and prev_cost - 1e-6 < cost < prev_cost)):
 #                print('\n{0} unable to improve cost further, stopping'.format(Moods.Shrug.value))
@@ -244,4 +246,5 @@ class Optimizer:
             for i in range(2):
                 for event in self.optimize_eliminees():
                     yield event
+            self.iterations += 1
 #            print('-------------------------passing the twelfth step-----------------')
