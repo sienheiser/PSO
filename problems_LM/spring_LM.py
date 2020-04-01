@@ -20,5 +20,6 @@ o.add_residual(opt.partial(residual, 1), pts[2], pts[3])
 o.add_residual(opt.partial(residual, -1), pts[4], pts[3])
 o.add_residual(opt.partial(residual, 1), pts[4], pts[5])
     
-print(o.residuals)
 o.optimize()
+
+print('The points are',pts)
