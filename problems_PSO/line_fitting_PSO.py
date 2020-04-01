@@ -7,6 +7,7 @@ Created on Fri Mar 20 12:10:41 2020
 
 import PSO_algorithm as pt
 import matplotlib.pyplot as plt
+import time
 
 
 
@@ -54,3 +55,26 @@ plt.plot(x,line(x,po.best_position[0],po.best_position[1]),label='PSO')
 plt.plot(X,Y,'o')
 plt.legend()
 plt.show()
+
+
+#%%  script for getting average time and average number of iterations
+
+i = 0
+iterations = 1000
+avg_iter = 0
+avg_cost = 0
+avg_time = 0
+
+while i<iterations:
+    t0 = time.time()
+    po = pt.PSO(position,f,20,0.000001)
+    t1 = time.time()
+    
+    avg_iter += po.iteration/iterations
+    avg_time += (t1-t0)/iterations
+    i += 1
+    
+    
+print('average iterations',avg_iter)
+print('avg_time',avg_time)
+
