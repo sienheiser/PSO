@@ -36,7 +36,7 @@ position = [pt.ma.Vec(2),pt.ma.Vec(2)]#[a,b]
 f = pt.partial(costfunc,pts)
 
 
-po = pt.PSO(position,f,20,0.000001)
+po = pt.PSO(position,f,20,1e-12)
 print('The number of iterations is',po.iteration)
 #print('The best cost is',po.best_cost)
 #print('The best position is',po.best_position)
@@ -60,21 +60,47 @@ plt.show()
 #%%  script for getting average time and average number of iterations
 
 i = 0
-iterations = 1000
+iterations = 10000
 avg_iter = 0
 avg_cost = 0
 avg_time = 0
 
+lis_iter = []
+lis_time = []
+
 while i<iterations:
     t0 = time.time()
-    po = pt.PSO(position,f,20,0.000001)
+    po = pt.PSO(position,f,20,1e-12)
     t1 = time.time()
     
     avg_iter += po.iteration/iterations
     avg_time += (t1-t0)/iterations
+    
+    lis_iter.append(po.iteration)
+    lis_time.append(t1-t0)
+    
     i += 1
     
     
 print('average iterations',avg_iter)
 print('avg_time',avg_time)
+
+#%% calculating standard deviation of time and iterations
+va_time = 0
+va_iter = 0
+
+for ti in lis_time:
+    va_time += (ti-avg_time)**2
+
+for it in lis_iter:
+    va_iter += (it-avg_iter)**2
+    
+sd_time = pt.np.sqrt(va_time/iterations)
+sd_iter = pt.np.sqrt(va_iter/iterations)
+
+print('Standard deviation of time',sd_time)
+print('Standard deviation of iterations',sd_iter)
+
+
+    
 
