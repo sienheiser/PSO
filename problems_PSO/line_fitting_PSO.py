@@ -35,7 +35,7 @@ position = [pt.ma.Vec(2),pt.ma.Vec(2)]#[a,b]
 f = pt.partial(costfunc,pts)
 
 
-po = pt.PSO(position,f,21,0.001)
+po = pt.PSO(position,f,20,0.000001)
 print('The number of iterations is',po.iteration)
 #print('The best cost is',po.best_cost)
 #print('The best position is',po.best_position)

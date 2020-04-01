@@ -71,8 +71,11 @@ class Swarm:
     def difference(self):
         print('cost_camp befor update',self.cost_camp)
         print('best_cost_g',self.best_cost_g)
-        self.tol = abs(self.best_cost_g-self.cost_camp)
-        self.cost_camp = self.best_cost_g
+        if self.best_cost_g == self.cost_camp:
+            pass
+        else:
+            self.tol = abs(self.best_cost_g-self.cost_camp)
+            self.cost_camp = self.best_cost_g
         print('The tolerance', self.tol)
         print('cost_camp after update',self.cost_camp)
         print('--------------------------------------')
