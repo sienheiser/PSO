@@ -16,7 +16,7 @@ klist = [1,-1,1,-1,1]
 
 #%% residual of springs
 def residual(k, v1, v2):
-    return v2 - v1 - k
+    return v2 - v1 -k
 
 #%% cost funtion
 
@@ -40,7 +40,7 @@ f = partial(costfun,klist)
 simplex = NM.Simplex(pts)
 #print(simplex.vertices)
 transformation = NM.SimpTransform
-tolerance = 1e-25
+tolerance = 1e-12
 
 
 NMalgo = NM.NMalgorithm(transformation,simplex,f,tolerance)
