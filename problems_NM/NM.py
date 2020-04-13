@@ -181,7 +181,7 @@ class SimpTransform:
         '''
         for i in range(len(self.simplex.vertices)):
             d = 1/2
-            self.simplex.vertices[i] = self.simplex.vertices[self.f_l]+d*(self.simplex.vertices[i]-self.simplex.vertices[self.f_l])
+            self.simplex.vertices[i] = self.simplex.vertices[self.i_l]+d*(self.simplex.vertices[i]-self.simplex.vertices[self.i_l])
     
     def tolerance(self):
         '''
