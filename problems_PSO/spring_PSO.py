@@ -7,12 +7,17 @@ Created on Fri Mar 20 11:15:29 2020
 #%%
 import PSO_algorithm as pt
 import time
+import numpy as np
 
 
 #%% points of ends of springs
-pts =  [pt.ma.Vec(v) for v in [-2, -1, 0, 0.5, 1.5, 2.5]]
+#pts =  [pt.ma.Vec(v) for v in [-2, -1, 0, 0.5, 1.5, 2.5]]
+#
+#klist = [1,1,1,1,1]
 
-klist = [1,1,1,1,1]
+#%% Increasing the number of spings
+pts = [pt.ma.Vec(v) for v in np.random.rand(10,1)]
+klist = [1 for i in range(len(pts)-1)]
 
 #%% residual of springs
 def residual(k, v1, v2):
@@ -39,15 +44,15 @@ def costfun(klist,pts):
 costfunction = pt.partial(costfun,klist)
 
 #%% running PSO algorithm
-#po = pt.PSO(pts,costfunction,50,1e-12)
-#
-#print('best position',po.best_position)
-#print('best cost',po.best_cost)
-#
-#for i in range(len(po.best_position)-1):
-#    n = i+1
-#    length = po.best_position[n]-po.best_position[i]
-#    print(length)
+po = pt.PSO(pts,costfunction,50,1e-12)
+
+print('best position',po.best_position)
+print('best cost',po.best_cost)
+
+for i in range(len(po.best_position)-1):
+    n = i+1
+    length = po.best_position[n]-po.best_position[i]
+    print(length)
 
 
 #%% Script for getting average time and iterations

@@ -7,6 +7,7 @@ Created on Sun Mar 29 14:28:43 2020
 
 import optimizer as opt
 import time
+import numpy as np
 #%%
 
 def residual(k, v1, v2):
@@ -14,38 +15,56 @@ def residual(k, v1, v2):
 
 
 
- 
+#pts = [opt.Vec(v) for v in np.random.rand(20,1)]
+#klist = [1 for i in range(len(pts)-1)]
+#
+#o = opt.Optimizer()
+#
+#for i in range(len(klist)):
+#    o.add_residual(opt.partial(residual,klist[1]),pts[i],pts[i+1])
+#o.optimize()
+#
+#print(pts)
+#
+#for i in range(len(pts)-1):
+#    n = i+1
+#    length = pts[n]-pts[i]
+#    print('The differences are',length)
 
 
-iterations = 1
-i = 0
+
+
+
+
+#%%
+
+
+iterations = 30
+nu = 0
 avg_time = 0
 avg_iter = 0
 
 lis_time = []
 lis_iter = []
 
+
 time1 = time.time()
-while i < iterations:
-    pts = [opt.Vec(x) for x in [-2, -1, 0, 0.5, 1.5, 2.5]]
+while nu < iterations:
+    print(nu)
+    pts = [opt.Vec(v) for v in np.random.rand(10,1)]
+    klist = [1 for i in range(len(pts)-1)]
     o = opt.Optimizer()
-    o.add_residual(opt.partial(residual, 1), pts[0], pts[1])
-    o.add_residual(opt.partial(residual, 1), pts[2], pts[1])
-    o.add_residual(opt.partial(residual, 1), pts[2], pts[3])
-    o.add_residual(opt.partial(residual, 1), pts[4], pts[3])
-    o.add_residual(opt.partial(residual, 1), pts[4], pts[5])
-    
-    
-    
+    for i in range(len(klist)):
+        o.add_residual(opt.partial(residual,klist[1]),pts[i],pts[i+1])
     
     t0 = time.time()
     o.optimize()
     t1 = time.time()
-    print('The point are',pts)
-    for i in range(len(pts)-1):
-        n = i+1
-        length = pts[n]-pts[i]
-        print('The differences are',length)
+#    print('The point are',pts)
+#    for i in range(len(pts)-1):
+#        n = i+1
+#        length = pts[n]-pts[i]
+#        print('The differences are',length)
     
     avg_iter += o.iterations/iterations
     avg_time += (t1-t0)/iterations
@@ -53,7 +72,8 @@ while i < iterations:
     lis_time.append(t1-t0)
     lis_iter.append(o.iterations)
     
-    i += 1
+    
+    nu += 1
 
 print('average iterations',avg_iter)
 print('average_time',avg_time)
