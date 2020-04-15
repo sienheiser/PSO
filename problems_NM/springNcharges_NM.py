@@ -55,4 +55,34 @@ tolerance = 1e-12
 NMalgo = NM.NMalgorithm(transformations,simplex,f,tolerance)
 print('The best vertex is',NMalgo.best_vertex)
 
+#%% Trying a different variation of the problem
+#Two charges one fixed and the other free to move 1d motion, a spring between them.
+
+def potential_2c1s(k,a,q,x):
+    '''
+    k:spring constant
+    a:spring rest length
+    q:charge of particle
+    '''
+    print('This is x',x[0])
+    return k/2*(x[0]-a)**2+q/x[0]
+
+k = 1
+a = 1
+q = 1
+
+h = partial(potential_2c1s,k,a,q)
+
+guess = np.array([2])
+
+simplex = NM.Simplex(guess)
+transform = NM.SimpTransform
+tolerance = 1e-12
+
+NMalgo1 = NM.NMalgorithm(transform,simplex,h,tolerance)
+
+#%% Next problem 
+#Two charges both are free to move, one spring between them
+
+
 

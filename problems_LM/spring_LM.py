@@ -17,7 +17,7 @@ def residual(k, v1, v2):
  
 
 
-iterations = 10000
+iterations = 1
 i = 0
 avg_time = 0
 avg_iter = 0
@@ -30,9 +30,9 @@ while i < iterations:
     pts = [opt.Vec(x) for x in [-2, -1, 0, 0.5, 1.5, 2.5]]
     o = opt.Optimizer()
     o.add_residual(opt.partial(residual, 1), pts[0], pts[1])
-    o.add_residual(opt.partial(residual, -1), pts[2], pts[1])
+    o.add_residual(opt.partial(residual, 1), pts[2], pts[1])
     o.add_residual(opt.partial(residual, 1), pts[2], pts[3])
-    o.add_residual(opt.partial(residual, -1), pts[4], pts[3])
+    o.add_residual(opt.partial(residual, 1), pts[4], pts[3])
     o.add_residual(opt.partial(residual, 1), pts[4], pts[5])
     
     
@@ -41,6 +41,11 @@ while i < iterations:
     t0 = time.time()
     o.optimize()
     t1 = time.time()
+    print('The point are',pts)
+    for i in range(len(pts)-1):
+        n = i+1
+        length = pts[n]-pts[i]
+        print('The differences are',length)
     
     avg_iter += o.iterations/iterations
     avg_time += (t1-t0)/iterations
