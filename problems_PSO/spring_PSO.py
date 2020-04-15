@@ -54,7 +54,7 @@ for i in range(len(po.best_position)-1):
 #%% Script for getting average time and iterations
 
 i = 0
-iterations = 30
+iterations = 100
 avg_iter = 0
 avg_cost = 0
 avg_time = 0
@@ -62,9 +62,10 @@ avg_time = 0
 lis_iter = []
 lis_time = []
 
+boundary = [-2,5]
 while i<iterations:
     t0 = time.time()
-    po = pt.PSO(pts,costfunction,20,1e-12)
+    po = pt.PSO(pts,costfunction,20,1e-12,boundary)
     t1 = time.time()
     
     avg_iter += po.iteration/iterations
@@ -72,7 +73,8 @@ while i<iterations:
     
     lis_iter.append(po.iteration)
     lis_time.append(t1-t0)
-    
+    if i%10 == 0:
+        print('iterations are',i)
     i += 1
 #    
 #    
@@ -80,20 +82,20 @@ print('average iterations',avg_iter)
 print('avg_time',avg_time)
 
 #%% calculating standard deviation of time and iterations
-#va_time = 0
-#va_iter = 0
-#
-#for ti in lis_time:
-#    va_time += (ti-avg_time)**2
-#
-#for it in lis_iter:
-#    va_iter += (it-avg_iter)**2
-#    
-#sd_time = pt.np.sqrt(va_time/iterations)
-#sd_iter = pt.np.sqrt(va_iter/iterations)
-#
-#print('Standard deviation of time',avg_time,sd_time)
-#print('Standard deviation of iterations',avg_iter,sd_iter)
+va_time = 0
+va_iter = 0
+
+for ti in lis_time:
+    va_time += (ti-avg_time)**2
+
+for it in lis_iter:
+    va_iter += (it-avg_iter)**2
+    
+sd_time = pt.np.sqrt(va_time/iterations)
+sd_iter = pt.np.sqrt(va_iter/iterations)
+
+print('Standard deviation of time',avg_time,sd_time)
+print('Standard deviation of iterations',avg_iter,sd_iter)
 
 
 

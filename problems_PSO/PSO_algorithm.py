@@ -97,20 +97,23 @@ class Swarm:
                     particle.velocity_i[i][j]=w*particle.velocity_i[i][j]+vel_cognitive+vel_social#updating the velocity component-wise
 #            print('particle velocity after update',particle.velocity_i)
     
-    def update_position(self):
+    def update_position(self,boundary):
         
         for particle in self.swarm:
 #            print('particle position before update',particle.position_i)
 #            for i in range(len(particle.position_i)):
 #                particle.position_i[i]=particle.position_i[i]+particle.velocity_i[i]
             particle.position_i = particle.position_i+particle.velocity_i
-            particle.position_i[0][0]=-2.0
-        
+            for i in range(len(particle.position_i)):
+                if particle.position_i[i][0] < boundary[0]:
+                    particle.position_i[i][0] = boundary[0]
+                if particle.position_i[i][0]> boundary[1]:
+                    particle.position_i[i][0] = boundary[1]
 #            print('particle position after update',particle.position_i)
             
 #%%
 class PSO:
-    def __init__(self,noisy_points,costfunc,num_particles:int,tol):
+    def __init__(self,noisy_points,costfunc,num_particles:int,tol,boundary):
         self.best_cost = None
         self.best_position = None
         
@@ -123,7 +126,7 @@ class PSO:
 #            print('The tolerance after update',sw.tol)
             
             sw.update_velocity()
-            sw.update_position()
+            sw.update_position(boundary)
             self.iteration += 1
         
         self.best_cost = sw.best_cost_g
