@@ -14,7 +14,7 @@ from uncertainties.umath import *
 
 #%% points of ends of springs
 np.random.seed(42)
-pts =  [pt.ma.Vec(v) for v in np.random.rand(6,1)]
+pts =  [pt.ma.Vec(v) for v in np.random.rand(11,1)]
 
 klist = [1 for i in range(len(pts)-1)]
 
@@ -43,16 +43,16 @@ def costfun(klist,pts):
 costfunction = pt.partial(costfun,klist)
 
 #%% running PSO algorithm
-#po = pt.PSO(pts,costfunction,20,1e-12)
-#
-#print('best position',po.best_position)
-#print('best cost',po.best_cost)
-#print('number of iterations',po.iteration)
-#
-#for i in range(len(po.best_position)-1):
-#    n = i+1
-#    length = po.best_position[n]-po.best_position[i]
-#    print(length)
+po = pt.PSO(pts,costfunction,20,1e-12)
+
+print('best position',po.best_position)
+print('best cost',po.best_cost)
+print('number of iterations',po.iteration)
+
+for i in range(len(po.best_position)-1):
+    n = i+1
+    length = po.best_position[n]-po.best_position[i]
+    print(length)
 
 
 #%% Script for getting average time and iterations
@@ -120,7 +120,7 @@ def script(pts,costfunction,numIterations):
     
     return dataPSO
 
-print(script(pts,costfunction,10))
+#print(script(pts,costfunction,10))
 
 
 
