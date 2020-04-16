@@ -31,7 +31,7 @@ class Particle:
         self.length_i = len(x)
         
         for i in x:
-            self.position_i.append(ma.Vec(*np.random.uniform(-5,5,len(i))))
+            self.position_i.append(ma.Vec(*np.random.uniform(-20,20,len(i))))
         self.position_i = ma.Vec(self.position_i)
         
         for i in self.position_i:
