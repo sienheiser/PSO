@@ -10,9 +10,10 @@ from functools import partial
 import numpy as np
 
 #%% points of ends of springs
-pts =   np.array([-2, -1, 0, 0.5, 1.5, 2.5])
+pts =   np.random.rand(1,31)[0]
 
-klist = [1,-1,1,-1,1]
+klist = [1 for i in range(len(pts)-1)]
+
 
 #%% residual of springs
 def residual(k, v1, v2):
@@ -44,3 +45,8 @@ tolerance = 1e-12
 
 
 NMalgo = NM.NMalgorithm(transformation,simplex,f,tolerance)
+
+#%%
+for i in range(len(NMalgo.best_vertex)-1):
+    length = NMalgo.best_vertex[i+1]-NMalgo.best_vertex[i]
+    print(length)
