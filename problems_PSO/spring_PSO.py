@@ -8,10 +8,13 @@ Created on Fri Mar 20 11:15:29 2020
 import PSO_algorithm as pt
 import time
 import numpy as np
+from uncertainties import ufloat
+from uncertainties.umath import *
 
 
 #%% points of ends of springs
-pts =  [pt.ma.Vec(v) for v in np.random.rand(21,1)]
+np.random.seed(42)
+pts =  [pt.ma.Vec(v) for v in np.random.rand(7,1)]
 
 klist = [1 for i in range(len(pts)-1)]
 
@@ -40,63 +43,84 @@ def costfun(klist,pts):
 costfunction = pt.partial(costfun,klist)
 
 #%% running PSO algorithm
-po = pt.PSO(pts,costfunction,50,1e-12)
-
-print('best position',po.best_position)
-print('best cost',po.best_cost)
-print('number of iterations',po.iteration)
-
-for i in range(len(po.best_position)-1):
-    n = i+1
-    length = po.best_position[n]-po.best_position[i]
-    print(length)
+#po = pt.PSO(pts,costfunction,20,1e-12)
+#
+#print('best position',po.best_position)
+#print('best cost',po.best_cost)
+#print('number of iterations',po.iteration)
+#
+#for i in range(len(po.best_position)-1):
+#    n = i+1
+#    length = po.best_position[n]-po.best_position[i]
+#    print(length)
 
 
 #%% Script for getting average time and iterations
+def script(pts,costfunction,numIterations):
+    i = 0#for while loop
+    iterations = numIterations#condition for while loop
+    avg_iter = 0
+    avg_time = 0
 
-#i = 0
-#iterations = 100
-#avg_iter = 0
-#avg_cost = 0
-#avg_time = 0
-#
-#lis_iter = []
-#lis_time = []
-#
-#boundary = [-2,5]
-#while i<iterations:
-#    t0 = time.time()
-#    po = pt.PSO(pts,costfunction,20,1e-12,boundary)
-#    t1 = time.time()
-#    
-#    avg_iter += po.iteration/iterations
-#    avg_time += (t1-t0)/iterations
-#    
-#    lis_iter.append(po.iteration)
-#    lis_time.append(t1-t0)
-#    if i%10 == 0:
-#        print('iterations are',i)
-#    i += 1
-##    
-##    
-#print('average iterations',avg_iter)
-#print('avg_time',avg_time)
+    lis_iter = []#appends the iterations for every run
+    lis_time = []#appends the time take to solve for every run
+    
+    dataPSO = []#appends list of tuples with format (avg_time,average_iter,average time per iteration)
 
+    while i<iterations:
+        t0 = time.time()
+        po = pt.PSO(pts,costfunction,20,1e-12)
+        t1 = time.time()
+    
+        avg_iter += po.iteration/iterations
+        avg_time += (t1-t0)/iterations
+    
+        lis_iter.append(po.iteration)
+        lis_time.append(t1-t0)
+        
+        for j in range(len(po.best_position)-1):
+            length = po.best_position[j+1]-po.best_position[j]
+            if round(length[0],2) != 1.0:
+                return  (avg_time,avg_iter)
+
+#            print('length',round(length[0],2))
+        
+        if i%10 == 0:
+            print('iterations are',i)
+        
+        i += 1
+#    
+#    
+    print('average iterations',avg_iter)
+    print('avg_time',avg_time)
 #%% calculating standard deviation of time and iterations
-#va_time = 0
-#va_iter = 0
-#
-#for ti in lis_time:
-#    va_time += (ti-avg_time)**2
-#
-#for it in lis_iter:
-#    va_iter += (it-avg_iter)**2
-#    
-#sd_time = pt.np.sqrt(va_time/iterations)
-#sd_iter = pt.np.sqrt(va_iter/iterations)
-#
-#print('Standard deviation of time',avg_time,sd_time)
-#print('Standard deviation of iterations',avg_iter,sd_iter)
+    va_time = 0
+    va_iter = 0
+
+    for ti in lis_time:
+        va_time += (ti-avg_time)**2
+
+    for it in lis_iter:
+        va_iter += (it-avg_iter)**2
+        
+    sd_time = pt.np.sqrt(va_time/iterations)
+    sd_iter = pt.np.sqrt(va_iter/iterations)
+
+    print('Standard deviation of time',avg_time,sd_time)
+    print('Standard deviation of iterations',avg_iter,sd_iter)
+    
+    avg_time4 = round(avg_time,4)
+    sd_time4 = round(sd_time,4)
+    avg_iter4 = round(avg_iter,4)
+    sd_iter4 = round(sd_iter,4)
+    
+    dataPSO.append((ufloat(avg_time4,sd_time4),ufloat(avg_iter4,sd_iter4),ufloat(avg_time,sd_time)/ufloat(avg_iter,sd_iter)))
+    
+    
+    return dataPSO
+
+print(script(pts,costfunction,1000))
+
 
 
 
