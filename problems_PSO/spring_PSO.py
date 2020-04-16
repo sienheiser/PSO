@@ -11,7 +11,7 @@ import numpy as np
 
 
 #%% points of ends of springs
-pts =  [pt.ma.Vec(v) for v in np.random.rand(11,1)]
+pts =  [pt.ma.Vec(v) for v in np.random.rand(21,1)]
 
 klist = [1 for i in range(len(pts)-1)]
 
@@ -40,7 +40,7 @@ def costfun(klist,pts):
 costfunction = pt.partial(costfun,klist)
 
 #%% running PSO algorithm
-po = pt.PSO(pts,costfunction,20,1e-12)
+po = pt.PSO(pts,costfunction,50,1e-12)
 
 print('best position',po.best_position)
 print('best cost',po.best_cost)
