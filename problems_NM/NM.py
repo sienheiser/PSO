@@ -268,10 +268,10 @@ class NMalgorithm():
         self.iterations = i
         self.best_cost = self.trans.f_l
         self.best_vertex = self.trans.simplex.vertices[self.trans.i_h]
-        print('The number of iterations',i)    
+#        print('The number of iterations',i)    
 #        print('The simplex after the loop',self.trans.simplex.vertices)
-        print('The best vertex',self.best_vertex)
-        print('The cost',self.best_cost)
+#        print('The best vertex',self.best_vertex)
+#        print('The cost',self.best_cost)
                             
                         
                         
