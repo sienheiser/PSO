@@ -40,7 +40,8 @@ np.random.seed(42)
 
 #%%
 
-numberOfPoints = [11,21,31,41,51]#number of points
+#numberOfPoints = [11,21,31,41,51]#number of points
+numberOfPoints = [6]
 data = []#This is where the tuples of (average time,no. of iteration, average time per iteration) will be created
 
 
@@ -122,9 +123,9 @@ for i in data:
     
 #%% saving data as csv
 
-datastr = [str(i) for i in data]
-
-
-with open('listfile.txt', 'w') as filehandle:
-    for listitem in data:
-        filehandle.write('%s\n' % data)
+#datastr = [str(i) for i in data]
+#
+#
+#with open('listfile.txt', 'w') as filehandle:
+#    for listitem in data:
+#        filehandle.write('%s\n' % data)
