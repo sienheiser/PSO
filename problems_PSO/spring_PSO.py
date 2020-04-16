@@ -14,7 +14,7 @@ from uncertainties.umath import *
 
 #%% points of ends of springs
 np.random.seed(42)
-pts =  [pt.ma.Vec(v) for v in np.random.rand(7,1)]
+pts =  [pt.ma.Vec(v) for v in np.random.rand(6,1)]
 
 klist = [1 for i in range(len(pts)-1)]
 
@@ -68,6 +68,7 @@ def script(pts,costfunction,numIterations):
     dataPSO = []#appends list of tuples with format (avg_time,average_iter,average time per iteration)
 
     while i<iterations:
+        print('value i',i)
         t0 = time.time()
         po = pt.PSO(pts,costfunction,20,1e-12)
         t1 = time.time()
@@ -119,7 +120,7 @@ def script(pts,costfunction,numIterations):
     
     return dataPSO
 
-print(script(pts,costfunction,1000))
+print(script(pts,costfunction,10))
 
 
 
