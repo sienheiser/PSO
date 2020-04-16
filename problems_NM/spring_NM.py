@@ -67,13 +67,15 @@ def script(transformations,pts,costfunction,tolerance,iterations):
         lis_time.append(t1-t0)#appending the time
         lis_iter.append(NMalgo.iterations)#appending the iterations
         
-        if i%10 == 0:#used to check progress
+        if i%100 == 0:#used to check progress
             print(i)
         
         for k in range(len(NMalgo.best_vertex)-1):
             length = NMalgo.best_vertex[k+1] - NMalgo.best_vertex[k]
+#            print(length)
             if round(length,2) != 1.0:
                 return False
+#        print('--------------------')
         
         i += 1#adding one to the index
         
@@ -109,19 +111,20 @@ def script(transformations,pts,costfunction,tolerance,iterations):
 numOfPoints = [6,11,21]
 dataNM = []
 
-pts = np.random.rand(1,11)[0]
-klist = [1 for i in range(len(pts)-1)]
-f = partial(costfun,klist)
-script(NM.SimpTransform,pts,f,1e-12,1000)
+#pts = np.random.rand(1,31)[0]
+#klist = [1 for i in range(len(pts)-1)]
 
-#for NumPoints in numOfPoints:
-#    pts = np.random.rand(1,NumPoints)[0]
-#    klist = [1 for i in range(len(pts)-1)]
-#    result = script(NM.SimpTransform,pts,f,1e-12,21)
-#    print(result)
-#    if result == False:
-#        break
-#    dataNM.append(result)
+#script(NM.SimpTransform,pts,f,1e-12,1)
+
+for NumPoints in numOfPoints:
+    pts = np.random.rand(1,NumPoints)[0]
+    klist = [1 for i in range(len(pts)-1)]
+    f = partial(costfun,klist)
+    result = script(NM.SimpTransform,pts,f,1e-12,1000)
+    print(result)
+    if result == False:
+        break
+    dataNM.append(result)
     
 #%%
 for data in dataNM:
