@@ -108,7 +108,7 @@ def script(transformations,pts,costfunction,tolerance,iterations):
     
     
 #%%
-numOfPoints = [6,11,21]
+numOfPoints = [31,41]
 dataNM = []
 
 #pts = np.random.rand(1,31)[0]
