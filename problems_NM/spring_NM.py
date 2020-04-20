@@ -67,7 +67,7 @@ def script(transformations,pts,costfunction,tolerance,iterations):
         lis_time.append(t1-t0)#appending the time
         lis_iter.append(NMalgo.iterations)#appending the iterations
         
-        if i%100 == 0:#used to check progress
+        if i%10 == 0:#used to check progress
             print(i)
         
         for k in range(len(NMalgo.best_vertex)-1):
