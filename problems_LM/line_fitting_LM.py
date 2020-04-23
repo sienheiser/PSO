@@ -110,8 +110,8 @@ def script(numIterations,numberOfPoints):
 
 
 #%% running the scripts
-numPoints = [20]
-data = []
+numPoints = [20]#Number of points
+data = []#appends the data
 
 for points in numPoints:
     data.append(script(numIterations = 100,numberOfPoints = 10))
