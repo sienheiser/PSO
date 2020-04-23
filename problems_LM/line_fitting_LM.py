@@ -6,27 +6,51 @@ Created on Wed Feb 26 16:32:05 2020
 """
 import optimizer as opt
 import time
+import numpy as np
+from uncertainties import ufloat
+from uncertainties.umath import *
 #%%
+
+
+def Average(data):
+    '''
+    data: list of data
+    This method calculates the average of the data, then uses the data to 
+    calculate the standard deviation of the data.
+    '''
+    average = sum(data)/len(data)#calculating the average
     
-opt.np.random.seed(42)
-#def residual(k, v1, v2):
-#    return v2[0] - v1[0] - k
-#
-#pts = [Vec(x) for x in [-2, -1, 0, 0.5, 1.5, 2.5]]
-#
-#o = Optimizer()
-#o.add_residual(partial(residual, 1), pts[0], pts[1])
-#o.add_residual(partial(residual, -1), pts[2], pts[1])
-#o.add_residual(partial(residual, 1), pts[2], pts[3])
-#o.add_residual(partial(residual, -1), pts[4], pts[3])
-#o.add_residual(partial(residual, 1), pts[4], pts[5])
-#    
-#print(o.residuals)
-#o.optimize()
-
-
-
+    variance = 0#used for calculating the variance
     
+    for da in data:
+        variance += (da-average)**2
+    standardDeviation = np.sqrt(variance)
+    return(average,standardDeviation)
+    
+def conditionLines(optimizedPts,X,Y):
+    '''
+    optimizedPts: The optimized parameters
+    X: list of x coordinates of points
+    Y: list of y coordinates of points
+    
+    Methods uses built-in python methods to check whether PSO finds
+    good gradient and y-intercept
+    '''
+    gradient,yIntercept = np.polyfit(X,Y,1)#finding the best gradient and y-intercept
+    significantFigures = 3
+    optGradient = round(optimizedPts[0][0],significantFigures)
+    optYintercept = round(optimizedPts[1][0],significantFigures)
+#    print('The optimized gradient is',optGradient)
+#    print('The gradient is',gradient)
+    
+    if optGradient != round(gradient,significantFigures):
+        print('Gradient of built-in python method and LM do not match')
+        return False
+    if optYintercept != round(yIntercept,significantFigures):
+        print('Y-intercept of built-in python method and LM do not match')
+        return False
+
+
 def vert_dist(x,y,a,b):
     '''
     pt: point (x,y)
@@ -34,70 +58,75 @@ def vert_dist(x,y,a,b):
     b: y-intercept
     '''
     return y-a[0]*x-b[0]
+#%% 
+def script(numIterations,numberOfPoints):
+    i = 0#for while loop
+    iterations = numIterations#condition for while loop
 
-pts = opt.np.random.rand(10,2)
-li = [opt.Vec(1),opt.Vec(1)]
-u = opt.Optimizer()
-for x,y in pts:
-    u.add_residual(opt.partial(vert_dist,x,y),li[0],li[1])
-u.optimize()
-print(li)
+    lis_iter = []#appends the iterations for every run
+    lis_time = []#appends the time take to solve for every run
+    
+    dataPSO = []#appends list of tuples with format (avg_time,average_iter,average time per iteration)
+    
+    while i<iterations:
+        np.random.seed(42)
+        pts = np.random.rand(numberOfPoints,2)
+        X = [x for x,y in pts]# x coordinates of points
+        Y = [y for x,y in pts]# y coordinates of points
+        li = [opt.Vec(1),opt.Vec(1)]
+        u = opt.Optimizer()
+        
+        for x,y in pts:
+            u.add_residual(opt.partial(vert_dist,x,y),li[0],li[1])
+        
+#        print('value i',i)
+        t0 = time.time()
+        u.optimize()
+        t1 = time.time()
+#        print('The points are',pts)
+    
+        lis_time.append(t1-t0)
+        lis_iter.append(u.iterations)
+        
+        if conditionLines(li,X,Y)==False:#looks if best position satifies the condition
+            return 'Solution does not satisfy condition, will not gather data.'
 
-#%%
+#            print('length',round(length[0],2))
+        
+        if i%10 == 0:
+            print('iterations are',i)
+        
+        i += 1
+#    
+#    
+    avg_time,sd_time = Average(lis_time)#calculates average time and standard deviation
+    avg_iter,sd_iter = Average(lis_iter)#calculates average iterations and standard devitation
+    
+    avg_time4,sd_time4 = round(avg_time,4),round(sd_time,4)#roudning to 4 s.f.
+    avg_iter4, sd_iter4  = round(avg_iter,4),round(sd_iter,4)#rounding to 4s.f
 
-#iterations = 10000
-#i = 0
-#avg_time = 0
-#avg_iter = 0
-#
-#lis_time = []
-#lis_iter = []
-#
-#time1 = time.time()
-#while i < iterations:
-#
-#    pts = opt.np.random.rand(10,2)
-#    li = [opt.Vec(1),opt.Vec(1)]
-#    u = opt.Optimizer()
-#    
-#    for x,y in pts:
-#        u.add_residual(opt.partial(vert_dist,x,y),li[0],li[1])
-#        
-#    t0 = time.time()
-#    
-#    u.optimize()
-#    
-#    t1 = time.time()
-#    
-#    avg_iter += u.iterations/iterations
-#    avg_time += (t1-t0)/iterations
-#    
-#    lis_time.append(t1-t0)
-#    lis_iter.append(u.iterations)
-#    
-#    i += 1
-#time2 = time.time()
-#print('The time for the while iterations to finish',time2-time1)
-#
-#print('average iterations',avg_iter)
-#print('average_time',avg_time)
-
-#%% calculating standard deviation of time and iterations
-#va_time = 0
-#va_iter = 0
-#
-#for ti in lis_time:
-#    va_time += (ti-avg_time)**2
-#
-#for it in lis_iter:
-#    va_iter += (it-avg_iter)**2
-#    
-#sd_time = opt.np.sqrt(va_time/iterations)
-#sd_iter = opt.np.sqrt(va_iter/iterations)
-#
-#print('Standard deviation of time',sd_time)
-#print('Standard deviation of iterations',sd_iter)
+    dataPSO.append((ufloat(avg_time4,sd_time4),ufloat(avg_iter4,sd_iter4),ufloat(avg_time,sd_time)/ufloat(avg_iter,sd_iter)))
+    return dataPSO
 
 
+#%% running the scripts
+numPoints = [20]
+data = []
+
+for points in numPoints:
+    data.append(script(numIterations = 100,numberOfPoints = 10))
     
 
+#%%
+#np.random.seed(42)
+#
+#pts = np.random.rand(10,2)
+#X = [x for x,y in pts]
+#Y = [y for x,y in pts]
+#li = [opt.Vec(1),opt.Vec(1)]
+#u = opt.Optimizer()
+#for x,y in pts:
+#    u.add_residual(opt.partial(vert_dist,x,y),li[0],li[1])
+#u.optimize()
+#
+#gradient,yintercept = np.polyfit(X,Y,1)

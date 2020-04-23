@@ -205,8 +205,8 @@ class Optimizer:
                 block = self.C[a0:az, a0:az].toarray()
 #                print('This is block \n',block)
                 self.dampedCinv[a0:az, a0:az] = np.linalg.inv(block + np.diag(block.diagonal() * dampingL + dampingQ))
-                print('This is dampedCinv \n',self.dampedCinv.todense())
-                print('The shape of dampedCinv',self.dampedCinv.shape)
+#                print('This is dampedCinv \n',self.dampedCinv.todense())
+#                print('The shape of dampedCinv',self.dampedCinv.shape)
 #            print('--------------------passing the seventh step---------------')
 #            print('The model_cost_change and prev_cost are',model_cost_change,prev_cost)
             # compute Schur complement
