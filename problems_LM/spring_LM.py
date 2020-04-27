@@ -66,7 +66,7 @@ def script(numIterations,numberOfPoints):
     
     while i<iterations:
         np.random.seed(42)
-        print('i',i)
+#        print('i',i)
         u = opt.Optimizer()
         pts = [opt.Vec(x) for x in np.random.rand(numberOfPoints,1)]
         for j in range(len(pts)-1):
@@ -85,7 +85,7 @@ def script(numIterations,numberOfPoints):
 
 #            print('length',round(length[0],2))
         
-        if i%10 == 0:
+        if i%100 == 0:
             print('iterations are',i)
         
         i += 1
@@ -104,13 +104,15 @@ np.random.seed(42)
 
 
 #%%
-numPoints = [6,11]#number of points
+numPoints = [6,41]#number of points
 data = []
 for points in numPoints:
-    data.append(script(100,points))
+    data.append(script(1000,points))
     print(data)
     
-    
+#%%
+for i in data:
+    print(i)
 
  
 
