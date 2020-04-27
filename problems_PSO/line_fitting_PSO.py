@@ -146,3 +146,6 @@ for points in numPoints:
     data.append(script(position,pts,costfunction,1000))
     print(data)
 
+#%%
+for i in data:
+    print(i)
