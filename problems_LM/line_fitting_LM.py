@@ -23,7 +23,7 @@ def Average(data):
     variance = 0#used for calculating the variance
     
     for da in data:
-        variance += (da-average)**2
+        variance += (da-average)**2/len(data)
     standardDeviation = np.sqrt(variance)
     return(average,standardDeviation)
     
@@ -110,11 +110,12 @@ def script(numIterations,numberOfPoints):
 
 
 #%% running the scripts
-numPoints = [20]#Number of points
+numPoints = [10]#Number of points
 data = []#appends the data
 
 for points in numPoints:
-    data.append(script(numIterations = 100,numberOfPoints = 10))
+    data.append(script(numIterations = 1000,numberOfPoints = 10))
+    print(data)
     
 
 #%%
