@@ -41,15 +41,15 @@ def conditionLines(optimizedPts,X,Y):
     '''
     gradient,yIntercept = np.polyfit(X,Y,1)#finding the best gradient and y-intercept
     significantFigures = 3
-    if round(optimizedPts[0][0],significantFigures) != round(gradient,significantFigures):
+    if round(optimizedPts[0],significantFigures) != round(gradient,significantFigures):
         print('Gradient of built-in python method and PSO do not match')
         return False
-    if round(optimizedPts[1][0],significantFigures) != round(yIntercept,significantFigures):
+    if round(optimizedPts[1],significantFigures) != round(yIntercept,significantFigures):
         print('Y-intercept of built-in python method and PSO do not match')
         return False
     
 #%%
-def script(pts,costfunction,numIterations):
+def script(guess,pts,costfunction,numIterations):
     i = 0#for while loop
     iterations = numIterations#condition for while loop
 
@@ -57,18 +57,23 @@ def script(pts,costfunction,numIterations):
     lis_time = []#appends the time take to solve for every run
     
     dataPSO = []#appends list of tuples with format (avg_time,average_iter,average time per iteration)
+    transformations = NM.SimpTransform
+    
+    X = [x for x,y in pts]
+    Y = [y for x,y in pts]
     
     while i<iterations:
+        simplex = NM.Simplex(guess)
 #        print('value i',i)
         t0 = time.time()
-        po = pt.PSO(pts,costfunction,20,1e-12)
+        po = NM.NMalgorithm(transformations,simplex,costfunction,1e-12)
         t1 = time.time()
 #        print('The points are',pts)
     
-        lis_iter.append(po.iteration)
+        lis_iter.append(po.iterations)
         lis_time.append(t1-t0)
         
-        if conditionLines(po.best_position,X,Y)==False:#looks if best position satifies the condition
+        if conditionLines(po.best_vertex,X,Y)==False:#looks if best position satifies the condition
             return 'Solution does not satisfy condition, will not gather data.'
 
 #            print('length',round(length[0],2))
@@ -107,11 +112,22 @@ def costfunc(pts,pos):#defining the cost function
     return cost
 
 #%%
-f = partial(costfunc,pts)#creating the cost function
-guess = np.array([1,2])# a guess
-simplex = NM.Simplex(guess) #creating a simplex
-tolerance = 1e-12
+#f = partial(costfunc,pts)#creating the cost function
+#guess = np.array([1,2])# a guess
+#simplex = NM.Simplex(guess) #creating a simplex
+#tolerance = 1e-12
+#
+#NMalgo = NM.NMalgorithm(NM.SimpTransform,simplex,f,tolerance)
+#print('The best position',NMalgo.best_vertex)
+#print('The cost',NMalgo.best_cost)
+#print('The iterations',NMalgo.iterations)
 
-NMalgo = NM.NMalgorithm(NM.SimpTransform,simplex,f,tolerance)
-print('The best position',NMalgo.best_vertex)
-print('The cost',NMalgo.best_cost)
+#%%
+
+numOfPoints = [10,20,30]
+guess = np.array([1,2])# a guess
+data = []
+for points in numOfPoints:
+    pts = np.random.rand(points,2)
+    f = partial(costfunc,pts)#creating the cost function
+    data.append(script(guess,pts,f,100))
