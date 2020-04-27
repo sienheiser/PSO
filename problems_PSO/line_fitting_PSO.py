@@ -26,7 +26,7 @@ def Average(data):
     variance = 0#used for calculating the variance
     
     for da in data:
-        variance += (da-average)**2
+        variance += (da-average)**2/len(data)
     standardDeviation = np.sqrt(variance)
     return(average,standardDeviation)
     
@@ -51,7 +51,7 @@ def conditionLines(optimizedPts,X,Y):
 
 
 #%% The script for gathering data
-def script(pts,costfunction,numIterations):
+def script(guess,pts,costfunction,numIterations):
     i = 0#for while loop
     iterations = numIterations#condition for while loop
 
@@ -60,12 +60,16 @@ def script(pts,costfunction,numIterations):
     
     dataPSO = []#appends list of tuples with format (avg_time,average_iter,average time per iteration)
     
+    X = [x for x,y in pts]# x coordinates of points
+    Y = [y for x,y in pts]# y coordinates of points
     while i<iterations:
 #        print('value i',i)
         t0 = time.time()
-        po = pt.PSO(pts,costfunction,20,1e-12)
+        po = pt.PSO(guess,costfunction,20,1e-12)
         t1 = time.time()
 #        print('The points are',pts)
+#        print('The best parameters are',po.best_position)
+        
     
         lis_iter.append(po.iteration)
         lis_time.append(t1-t0)
@@ -75,12 +79,12 @@ def script(pts,costfunction,numIterations):
 
 #            print('length',round(length[0],2))
         
-        if i%10 == 0:
+        if i%100 == 0:
             print('iterations are',i)
         
         i += 1
 #    
-#    
+#    print('The list of iterations',lis_iter)
     avg_time,sd_time = Average(lis_time)#calculates average time and standard deviation
     avg_iter,sd_iter = Average(lis_iter)#calculates average iterations and standard devitation
     
@@ -116,36 +120,29 @@ print('The number of iterations is',po.iteration)
 #print('The best cost is',po.best_cost)
 #print('The best position is',po.best_position)
 #%%
-m,b = pt.np.polyfit(X,Y,1)
-def line(x,a,b):
-    return x*a+b
-x = pt.np.linspace(0,1)
-print('m,b',m,b)
-print('gradient, slope',po.best_position)
-plt.plot(x,line(x,m,b),label = 'inbuilt method')
-plt.plot(x,line(x,po.best_position[0],po.best_position[1]),label='PSO')
-plt.plot(X,Y,'o')
-plt.legend()
-plt.show()
+#m,b = pt.np.polyfit(X,Y,1)
+#def line(x,a,b):
+#    return x*a+b
+#x = pt.np.linspace(0,1)
+#print('m,b',m,b)
+#print('gradient, slope',po.best_position)
+#plt.plot(x,line(x,m,b),label = 'inbuilt method')
+#plt.plot(x,line(x,po.best_position[0],po.best_position[1]),label='PSO')
+#plt.plot(X,Y,'o')
+#plt.legend()
+#plt.show()
 
 
 #%%  running the script
 
 
-numPoints = [10]# The number of points
+numPoints = [10,20,30,40,50]# The number of points
 data = []
 for points in numPoints:
-    pts = pt.np.random.rand(points,2)#poitns 
-    X = [x for x,y in pts]# x coordinates of points
-    Y = [y for x,y in pts]# y coordinates of points
+    np.random.seed(42)
+    pts = np.random.rand(points,2)#points 
     position = pt.np.random.rand(2,1)# random guess for gradient and yIntercept
     costfunction = pt.partial(costfunc,pts)
-    
-    data.append(script(pts,costfunction,100))
+    data.append(script(position,pts,costfunction,1000))
     print(data)
-    
-
-
-
-    
 
