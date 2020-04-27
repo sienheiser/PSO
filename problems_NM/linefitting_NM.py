@@ -26,7 +26,7 @@ def Average(data):
     variance = 0#used for calculating the variance
     
     for da in data:
-        variance += (da-average)**2
+        variance += (da-average)**2/len(data)
     standardDeviation = np.sqrt(variance)
     return(average,standardDeviation)
     
@@ -78,7 +78,7 @@ def script(guess,pts,costfunction,numIterations):
 
 #            print('length',round(length[0],2))
         
-        if i%10 == 0:
+        if i%100 == 0:
             print('iterations are',i)
         
         i += 1
@@ -124,10 +124,15 @@ def costfunc(pts,pos):#defining the cost function
 
 #%%
 
-numOfPoints = [10,20,30]
+numOfPoints = [10,20,30,40,50]
 guess = np.array([1,2])# a guess
 data = []
 for points in numOfPoints:
     pts = np.random.rand(points,2)
     f = partial(costfunc,pts)#creating the cost function
-    data.append(script(guess,pts,f,100))
+    data.append(script(guess,pts,f,1000))
+    print(data)
+    
+#%%
+for i in data:
+    print(i)

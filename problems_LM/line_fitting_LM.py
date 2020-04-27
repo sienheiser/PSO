@@ -93,7 +93,7 @@ def script(numIterations,numberOfPoints):
 
 #            print('length',round(length[0],2))
         
-        if i%10 == 0:
+        if i%100 == 0:
             print('iterations are',i)
         
         i += 1
@@ -110,12 +110,16 @@ def script(numIterations,numberOfPoints):
 
 
 #%% running the scripts
-numPoints = [10]#Number of points
+numPoints = [10,20,30,40,50]#Number of points
 data = []#appends the data
 
 for points in numPoints:
-    data.append(script(numIterations = 1000,numberOfPoints = 10))
+    data.append(script(numIterations = 1000,numberOfPoints = points))
     print(data)
+    
+#%%
+for i in data:
+    print(i)
     
 
 #%%
