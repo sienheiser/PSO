@@ -78,7 +78,7 @@ def script(pts,costfunction,numIterations):
     while i<iterations:
 #        print('value i',i)
         t0 = time.time()
-        po = pt.PSO(pts,costfunction,20,1e-12)
+        po = pt.PSO(pts,costfunction,int(20*(len(pts)-1)),1e-12)
         t1 = time.time()
     
     
@@ -89,7 +89,7 @@ def script(pts,costfunction,numIterations):
             return 'Solution does not satisfy condition, will not gather data.'
 
 #            print('length',round(length[0],2))
-        
+#        print(po.best_cost)
         if i%10 == 0:
             print('iterations are',i)
         
@@ -111,33 +111,40 @@ def script(pts,costfunction,numIterations):
 
 #%% points of ends of springs
 np.random.seed(42)
-pts =  [pt.ma.Vec(v) for v in np.random.rand(6,1)]
+pts =  [pt.ma.Vec(v) for v in np.random.rand(20,1)]
 klist = [1 for i in range(len(pts)-1)]
 costfunction = pt.partial(costfun,klist)
 #%% running PSO algorithm
-po = pt.PSO(pts,costfunction,100,1e-12)
+po = pt.PSO(pts,costfunction,20*len(klist),1e-12)
 
 print('best position',po.best_position)
 print('best cost',po.best_cost)
 print('number of iterations',po.iteration)
 
+
 for i in range(len(po.best_position)-1):
     n = i+1
     length = po.best_position[n]-po.best_position[i]
     print(length)
-    
-#%% Running the script
-NumPoints = [6]
-data = []
+#%%
 
+#%% Running the script
+NumPoints = [11]
+data = []
+j = 0 
 for points in NumPoints:
+    print('select {} position from NumPoints'.format(j))
     pts =  [pt.ma.Vec(v) for v in np.random.rand(points,1)]
     klist = [1 for i in range(len(pts)-1)]
     costfunction = pt.partial(costfun,klist)
-    data.append(script(pts,costfunction,numIterations = 100))
+    data.append(script(pts,costfunction,numIterations = 1000))
+    j += 1
+#    print(script(pts,costfunction,numIterations = 20))
 
     
 
 
+#%%
 
-
+for i in data:S
+    print(i)
