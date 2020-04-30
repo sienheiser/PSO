@@ -111,11 +111,11 @@ def script(pts,costfunction,numIterations):
 
 #%% points of ends of springs
 np.random.seed(42)
-pts =  [pt.ma.Vec(v) for v in np.random.rand(21,1)]
+pts =  [pt.ma.Vec(v) for v in np.random.rand(6,1)]
 klist = [1 for i in range(len(pts)-1)]
 costfunction = pt.partial(costfun,klist)
 #%% running PSO algorithm
-po = pt.PSO(pts,costfunction,50*len(klist),1e-12)
+po = pt.PSO(pts,costfunction,23,1e-12)
 
 print('best position',po.best_position)
 print('best cost',po.best_cost)
