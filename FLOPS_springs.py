@@ -18,7 +18,7 @@ def FLOP_PSO(m):
     '''
     m: number of parameters
     '''
-    return 10*(11*m**2-3*m)
+    return 20*(11*m**2-3*m)
 
 def FLOP_LM(m):
     return 3*m**3-5*m**2+m+2
@@ -37,6 +37,9 @@ plt.plot(m,FLOP_NM(m),'b',label = 'NM')
 #plt.ylim(0,10000)
 #plt.xlim(0,50)
 
-plt.xlabel('Number of parameters')
-plt.ylabel('FLOPS')
+size = 15
+plt.xlabel('Number of parameters',size = size)
+plt.ylabel('FLOPS',size = size)
+plt.xticks(size = size)
+plt.yticks(size = size)
 plt.legend()
