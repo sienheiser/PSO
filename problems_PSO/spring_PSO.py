@@ -48,7 +48,7 @@ def Average(data):
     variance = 0#used for calculating the variance
     
     for da in data:
-        variance += (da-average)**2
+        variance += (da-average)**2/len(data)
     standardDeviation = np.sqrt(variance)
     return(average,standardDeviation)
     
@@ -111,11 +111,11 @@ def script(pts,costfunction,numIterations):
 
 #%% points of ends of springs
 np.random.seed(42)
-pts =  [pt.ma.Vec(v) for v in np.random.rand(20,1)]
+pts =  [pt.ma.Vec(v) for v in np.random.rand(21,1)]
 klist = [1 for i in range(len(pts)-1)]
 costfunction = pt.partial(costfun,klist)
 #%% running PSO algorithm
-po = pt.PSO(pts,costfunction,20*len(klist),1e-12)
+po = pt.PSO(pts,costfunction,50*len(klist),1e-12)
 
 print('best position',po.best_position)
 print('best cost',po.best_cost)
@@ -145,6 +145,3 @@ for points in NumPoints:
 
 
 #%%
-
-for i in data:S
-    print(i)
