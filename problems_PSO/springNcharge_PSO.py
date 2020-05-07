@@ -7,6 +7,7 @@ Created on Mon Apr 13 11:45:25 2020
 
 import PSO_algorithm as pt
 from functools import partial
+import numpy as np
 
 #%% Initializing the problem
 
@@ -30,15 +31,15 @@ def V_spring(springConst,springLen,pts):
     return totalsum
 
 #%% checking if the spring potential returns the correct value
-f = partial(V_spring,springConst,springLen)
-po = pt.PSO(pts,f,20,1e-12)
-print('best cost',po.best_cost)
-print('best position',po.best_position)
-
-for i in range(len(po.best_position)-1):
-    n = i+1
-    length = po.best_position[n]-po.best_position[i]
-    print(length)
+#f = partial(V_spring,springConst,springLen)
+#po = pt.PSO(pts,f,20,1e-12)
+#print('best cost',po.best_cost)
+#print('best position',po.best_position)
+#
+#for i in range(len(po.best_position)-1):
+#    n = i+1
+#    length = po.best_position[n]-po.best_position[i]
+#    print(length)
     
 
 #%% building the coloumb potential
@@ -55,10 +56,10 @@ def V_coloumb(charges,pts):
             if i == j:
                 pass
             else:
-                totalsum += constant *charges[i]/(pts[j][0]-pts[i][0])
+                totalsum += constant *charges[i]/abs((pts[j][0]-pts[i][0]))
     return totalsum
-charges = [2,3,4]#charges of the particles
-print('The value of the coloumb potential is',V_coloumb(charges,pts))
+charges = [10,20,30]#charges of the particles
+#print('The value of the coloumb potential is',V_coloumb(charges,pts))
 
 #%% Running PSO on v_coloumb
 #po1 = pt.PSO(pts,partial(V_coloumb,charges),10,1e-5)
@@ -76,8 +77,34 @@ g = partial(V,springConst,springLen,charges)#the cost function of the problem
 
 po2 = pt.PSO(pts,g,50,1e-12)
 
-print('best cost',po.best_cost)
-print('best position',po.best_position)
+print('best cost',po2.best_cost)
+print('best position',po2.best_position)
 
 
 
+#%% New trial
+
+#pts = [pt.ma.Vec(2),pt.ma.Vec(1)]
+#klist = [1]
+#charges = [1,1]
+#
+#def v_spring(pts,klist):
+#    su = 0
+#    for i in range(len(klist)):
+#        su += (pts[i+1][0]-pts[i][0]-klist[i])
+#    return su
+#
+#def v_coloumb(pts,charges):
+#    return charges[0]*charges[1]*1/np.sqrt((pts[0][0]-pts[1][0])**2)
+#
+#print(v_coloumb(pts,charges))
+#        
+#def v(klist,charges,pts):
+#    return v_spring(pts,klist)+v_coloumb(pts,charges)
+#
+#cost = partial(v,klist,charges)
+#
+#po3 = pt.PSO(pts,cost,50,1e-12)
+#
+#print('best cost',po3.best_cost)
+#print('best position',po3.best_position)
