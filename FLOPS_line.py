@@ -61,6 +61,36 @@ plt.legend(prop = {'size':size})
 plt.savefig('FLOPS_line.eps')
 
 
+#%%
+
+def plottingscript(x,y,yerr,color,fmt,label,xlabel,ylabel):
+    '''
+    Functions takes x and y data and makes linear fit. Also takes
+    error in y-axis. Then plots the linear fit and error
+    x: x data in list
+    y: y data in list
+    yerr: error of y data in list
+    color: colour you want to graph in strings
+    label: the name of the graph
+    '''
+    axis = np.linspace(0,50)
+    m,c = np.polyfit(x,y,1)
+    line = np.poly1d([0,m,c])
+    
+    plt.plot(axis,line(axis),color = color, label = label)
+#    plt.plot(x,y,color = color)
+    plt.errorbar(x,y,yerr = yerr, fmt = fmt,ecolor = color ,capsize = 3)
+    
+    size = 16
+    plt.xlabel(xlabel,size = size)
+    plt.ylabel(ylabel,size = size)
+    
+    plt.xticks(size = size)
+    plt.yticks(size = size)
+    
+    plt.legend(prop = {'size':size})
+
+
 
 #%% PLotting number of points vs average time
 num_points = [10,20,30,40,50]#number of points
@@ -75,32 +105,38 @@ avg_timeErrPSO = [0.008,0.013,0.023,0.022,0.029]
 avg_timeNM = [0.011,0.02,0.03,0.039,0.048]
 avg_timeErrNM = [0.001,0.002,0.003,0.004,0.005]
 
-mTimeLM,cTimeLM = np.polyfit(num_points,avg_timeLM,1)#doing a linear fit
-lineTimeLM = np.poly1d([0,mTimeLM,cTimeLM])#creating line
 
-mTimePSO,cTimePSO = np.polyfit(num_points,avg_timePSO,1)
-lineTimePSO = np.poly1d([0,mTimePSO,cTimePSO])
-
-mTimeNM,cTimeNM = np.polyfit(num_points,avg_timeNM,1)
-lineTimeNM = np.poly1d([0,mTimeNM,cTimeNM])
+plottingscript(num_points,avg_timeLM,avg_timeErrLM,'r','LM','Number of residuals','Average time [s]')
+plottingscript(num_points,avg_timePSO,avg_timeErrPSO,'g','PSO','Number of residuals','Average time [s]')
+plottingscript(num_points,avg_timeNM,avg_timeErrNM,'b','NM','Number of residuals','Average time [s]')
 
 
-plt.plot(axis,lineTimeLM(axis),'r',label = 'LM')#ploting line created
-plt.errorbar(num_points,avg_timeLM, yerr = avg_timeErrLM, fmt = 'none',ecolor = 'r',capsize = 3 )#error bar
-
-plt.plot(axis,lineTimePSO(axis),'g',label = 'PSO')
-plt.errorbar(num_points,avg_timePSO, yerr = avg_timeErrPSO, fmt = 'none',ecolor = 'g',capsize = 3 )
-
-
-plt.plot(axis,lineTimeNM(axis),'b',label = 'NM')
-plt.errorbar(num_points,avg_timeNM, yerr = avg_timeErrNM, fmt = 'none',ecolor = 'b',capsize = 3 )
-
-size = 14
-plt.ylabel('Average time [s]',size = size)
-plt.xlabel('Number of residuals',size = size)
-plt.legend()
-plt.show()
-
+#mTimeLM,cTimeLM = np.polyfit(num_points,avg_timeLM,1)#doing a linear fit
+#lineTimeLM = np.poly1d([0,mTimeLM,cTimeLM])#creating line
+#
+#mTimePSO,cTimePSO = np.polyfit(num_points,avg_timePSO,1)
+#lineTimePSO = np.poly1d([0,mTimePSO,cTimePSO])
+#
+#mTimeNM,cTimeNM = np.polyfit(num_points,avg_timeNM,1)
+#lineTimeNM = np.poly1d([0,mTimeNM,cTimeNM])
+#
+#
+#plt.plot(axis,lineTimeLM(axis),'r',label = 'LM')#ploting line created
+#plt.errorbar(num_points,avg_timeLM, yerr = avg_timeErrLM, fmt = 'none',ecolor = 'r',capsize = 3 )#error bar
+#
+#plt.plot(axis,lineTimePSO(axis),'g',label = 'PSO')
+#plt.errorbar(num_points,avg_timePSO, yerr = avg_timeErrPSO, fmt = 'none',ecolor = 'g',capsize = 3 )
+#
+#
+#plt.plot(axis,lineTimeNM(axis),'b',label = 'NM')
+#plt.errorbar(num_points,avg_timeNM, yerr = avg_timeErrNM, fmt = 'none',ecolor = 'b',capsize = 3 )
+#
+#size = 16
+#plt.ylabel('Average time [s]',size = size)
+#plt.xlabel('Number of residuals',size = size)
+#plt.legend({'size':size})
+#plt.show()
+#
 
 
 #%% Plotting number of points vs average iterations
@@ -133,9 +169,9 @@ plt.errorbar(num_points,avg_iterNM, yerr = avg_iterErrNM, fmt = 'none',ecolor = 
 plt.yticks([0,3,10,20,30,40,50,60,70],size = size)
 plt.xticks(size = size)
 
-plt.ylabel('Average number of iterations')
-plt.xlabel('Number of residuals')
-plt.legend()
+plt.ylabel('Average number of iterations',size = size)
+plt.xlabel('Number of residuals', size = size)
+plt.legend(prop = {'size':size})
 
 
 #%% Plotting number of points vs average time per iteration
@@ -148,27 +184,6 @@ avg_tpriErrPSO = [0.0001560,0.0002612,0.0004178,0.0004438,0.0005641]
 avg_tpriNM = [0.0002008,0.0003659,0.00052887,0.0006905,0.0008533]
 avg_tpriErrNM = [2.994e-5,5.309e-5,7.819e-5,8.795e-5,0.0001063]
 
-def plottingscript(x,y,yerr,color,label,xlabel,ylabel):
-    '''
-    Functions takes x and y data and makes linear fit. Also takes
-    error in y-axis. Then plots the linear fit and error
-    x: x data in list
-    y: y data in list
-    yerr: error of y data in list
-    color: colour you want to graph in strings
-    label: the name of the graph
-    '''
-    axis = np.linspace(0,50)
-    m,c = np.polyfit(x,y,1)
-    line = np.poly1d([0,m,c])
-    
-    plt.plot(axis,line(axis),color = color, label = label)
-    plt.errorbar(x,y,yerr = yerr, fmt = 'none',ecolor = color ,capsize = 3)
-    
-    size = 14
-    plt.xlabel(xlabel,size = size)
-    plt.ylabel(ylabel,size = size)
-    plt.legend()
 
 plottingscript(num_points,avg_tpriLM,avg_tpriErrLM,'r','LM','Number of residuals','Average time per iterations [s]')
 plottingscript(num_points,avg_tpriPSO,avg_tpriErrPSO,'g','PSO','Number of residuals','Average time per iterations [s]')
