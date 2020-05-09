@@ -46,7 +46,7 @@ def costfun(klist,pts):
 costfunction = pt.partial(costfun,klist)
 
 #%% running PSO algorithm
-po = pt.PSO(pts,costfunction,200,1e-12)
+po = pt.PSO(pts,costfunction,20,1e-12)
 
 print('best position',po.best_position)
 print('best cost',po.best_cost)
