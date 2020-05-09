@@ -8,6 +8,8 @@ Created on Wed Apr 29 15:19:49 2020
 import numpy as np
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.optimize import curve_fit
+import GeneralCurves as GC
 
 #%%
 
@@ -55,7 +57,7 @@ def plottingscript(x,y,yerr,color,label,xlabel,ylabel):
     color: colour you want to graph in strings
     label: the name of the graph
     '''
-    axis = np.linspace(0,50)
+    axis = np.linspace(0,50,100)
     m,c = np.polyfit(x,y,1)
     line = np.poly1d([0,m,c])
     
@@ -82,6 +84,27 @@ avg_timeErrPSO = [0.0858,0.4621]
 avg_timeNM = [0.0214,0.2429,5.6212]
 avg_timeErrNM = [0.0026,0.0456,1.5428]
 
+poptTimeLM,pcovTimeLM = curve_fit(GC.powerlaw,num_points,avg_timeLM)
+
+poptTimeNM,pcovTimeNM = curve_fit(GC.powerlaw,[5,10,20],avg_timeNM)
+
+plt.semilogy(axis,GC.powerlaw(axis,*poptTimeLM),'r',label = 'LM')
+plt.errorbar(num_points,avg_timeLM, yerr = avg_timeErrLM, fmt = 'ro',ecolor = 'r',capsize = 3 )
+
+plt.semilogy([5,10],avg_timePSO,'go',label = "PSO")
+plt.errorbar([5,10],avg_timePSO, yerr = avg_timeErrPSO, fmt = 'none',ecolor = 'g',capsize = 3 )
+
+plt.semilogy(axis,GC.powerlaw(axis,*poptTimeNM),'b',label = 'NM')
+plt.errorbar([5,10,20],avg_timeNM, yerr = avg_timeErrNM, fmt = 'bo',ecolor = 'b',capsize = 3 )
+
+size = 16
+plt.yticks(size = size)
+plt.xticks(size = size)
+
+plt.ylabel('Average time [s]',size = size)
+plt.xlabel('Number of springs', size = size)
+plt.legend(prop = {'size':size})
+
 
 #%%
 
@@ -97,6 +120,8 @@ avg_iterErrNM = np.array([23.5137,153.9832,1824.6534])
 mIterLM,cIterLM = np.polyfit(num_points,avg_iterLM,1)
 lineIterLM = np.poly1d([mIterLM,cIterLM])
 
+poptIterNM,pcovIterNM = curve_fit(GC.exponential,[5,10,20],[200.138,858.996,6649.054])
+
 
 plt.plot(axis,lineIterLM(axis),'r',label = 'LM')#ploting line created
 plt.plot(num_points,avg_iterLM,'ro')
@@ -105,16 +130,16 @@ plt.semilogy([5,10],avg_iterPSO,'go',label = 'PSO')
 plt.errorbar([5,10],avg_iterPSO, yerr = avg_iterErrPSO, fmt = 'none',ecolor = 'g',capsize = 3 )
 
 
-plt.semilogy([5,10,20],avg_iterNM,'bo',label = 'NM')
+plt.semilogy([5,10,20],avg_iterNM,'bo')
 plt.errorbar([5,10,20],avg_iterNM, yerr = avg_iterErrNM, fmt = 'none',ecolor = 'b',capsize = 3 )
-#
+plt.plot(axis,GC.exponential(axis,*poptIterNM),'b',label = 'NM')
 
 size = 16
 plt.yticks(size = size)
 plt.xticks(size = size)
 
 plt.ylabel('Average number of iterations',size = size)
-plt.xlabel('Number of residuals', size = size)
+plt.xlabel('Number of springs', size = size)
 plt.legend(prop = {'size':size})
 
 
